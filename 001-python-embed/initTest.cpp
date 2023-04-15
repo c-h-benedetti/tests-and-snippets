@@ -5,15 +5,17 @@
 #include <initializer_list>
 #include <cstdlib>
 
+// codeBlock{'id': "envPathSeparator", 'other':4};
 #ifdef _WIN32
     #define DELIM ';'
 #else
     #define DELIM ':'
 #endif
-
+// codeBlockEnd;
 
 using Path = std::filesystem::path;
 
+// codeBlock{'id': "makeFullPath", 'other':4};
 std::string makeFullPath(const std::initializer_list<Path>& chunks) {
     std::string buffer = "";
 
@@ -25,7 +27,9 @@ std::string makeFullPath(const std::initializer_list<Path>& chunks) {
     }
     return buffer.substr(0, buffer.size()-1);
 }
+// codeBlockEnd;
 
+// codeBlock{'id': "init_python", 'other':4};
 void init_python(const char* appPath, const char* name=nullptr) {
     
     // = = = Définition de tous les chemins que l'interpréteur Python doit connaitre = = =
@@ -78,6 +82,7 @@ exception:
     PyConfig_Clear(&config);
     Py_ExitStatusException(status);
 }
+// codeBlockEnd;
 
 /*
 
