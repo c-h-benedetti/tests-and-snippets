@@ -84,7 +84,7 @@ void init_python(const char* appPath, const char* name=nullptr) {
     );
     if (PyStatus_Exception(status)) { goto exception; }
     // codeBlockEnd;
-    // codeBlock{"id": "init_python", "other":4};
+    // codeBlock{"id": "init_python_p2", "other":4};
     // 6. Setting executable location:
     status = PyConfig_SetBytesString(
         &config,
