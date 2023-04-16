@@ -32,8 +32,9 @@ std::string makeFullPath(const std::initializer_list<Path>& chunks) {
 // codeBlock{"id": "init_python", "other":4};
 void init_python(const char* appPath, const char* name=nullptr) {
     
-    // = = = Définition de tous les chemins que l'interpréteur Python doit connaitre = = =
-    Path software_path    = std::filesystem::absolute(std::filesystem::path(appPath).parent_path());
+    // = Définition de tous les chemins que l'interpréteur Python doit connaitre =
+    Path software_path    = std::filesystem::absolute(
+        std::filesystem::path(appPath).parent_path());
     Path python_home_path = software_path / "python";
     Path executable_path  = python_home_path / "python";
 
@@ -43,36 +44,55 @@ void init_python(const char* appPath, const char* name=nullptr) {
         python_home_path / "build/lib.linux-x86_64-3.10"
     });    
 
-    // = = = Construction de la configuration = = =
+    // = Construction de la configuration =
     PyStatus status;
     PyConfig config;
     PyConfig_InitPythonConfig(&config);
 
     // 1. Set Python's home path
-    status = PyConfig_SetBytesString(&config, &config.home, python_home_path.c_str());
+    status = PyConfig_SetBytesString(
+        &config, 
+        &config.home, 
+        python_home_path.c_str()
+    );
     if (PyStatus_Exception(status)) { goto exception; }
 
     // 2. Set Python's libraries directory name
-    status = PyConfig_SetBytesString(&config, &config.platlibdir, "Lib");
+    status = PyConfig_SetBytesString(
+        &config,
+        &config.platlibdir,
+        "Lib"
+    );
     if (PyStatus_Exception(status)) { goto exception; }
 
     // 3. Change error displaying mode during python path calculation.
     config.pathconfig_warnings = 1;
 
     // 4. Set program name (if one was provided)
-    status = PyConfig_SetBytesString(&config, &config.program_name, (name == nullptr) ? "python3.10.10" : name);
+    status = PyConfig_SetBytesString(
+        &config, 
+        &config.program_name, 
+        (name == nullptr) ? "python3.10.10" : name
+    );
     if (PyStatus_Exception(status)) { goto exception; }
 
     // 5. Set Python path (sys.path)
-    // DELIM est une variable de préprocesseur qui représente le séparateur de path (au besoin)
-    status = PyConfig_SetBytesString(&config, &config.pythonpath_env, env_path.c_str());
+    status = PyConfig_SetBytesString(
+        &config,
+        &config.pythonpath_env,
+        env_path.c_str()
+    );
     if (PyStatus_Exception(status)) { goto exception; }
 
     // 6. Setting executable location:
-    status = PyConfig_SetBytesString(&config, &config.executable, executable_path.c_str());
+    status = PyConfig_SetBytesString(
+        &config,
+        &config.executable,
+        executable_path.c_str()
+    );
     if (PyStatus_Exception(status)) { goto exception; }
 
-    // = = = Initializing the Python interpreter & cleaning = = =
+    // = Initializing the Python interpreter & cleaning =
     status = Py_InitializeFromConfig(&config);
     if (PyStatus_Exception(status)) { goto exception; }
     PyConfig_Clear(&config);
@@ -88,7 +108,8 @@ exception:
 
 (1) https://docs.python.org/3.10/c-api/init_config.html?highlight=pyconfig#c.PyStatus
 
-- Utiliser PyStatus_Exception et Py_ExitStatusException pour gérer les erreurs et les exceptions.
+- Utiliser PyStatus_Exception et Py_ExitStatusException pour gérer les erreurs et 
+  les exceptions.
 - D'après la doc officielle (1) Python peut être initialisé plusieurs fois.
 - The current configuration (PyConfig type) is stored in PyInterpreterState.config
 
