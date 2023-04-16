@@ -29,7 +29,7 @@ std::string makeFullPath(const std::initializer_list<Path>& chunks) {
 }
 // codeBlockEnd;
 
-// codeBlock{"id": "init_python", "other":4};
+// codeBlock{"id": "init_python_p1", "other":4};
 void init_python(const char* appPath, const char* name=nullptr) {
     
     // = Définition de tous les chemins que l'interpréteur Python doit connaitre =
@@ -83,7 +83,8 @@ void init_python(const char* appPath, const char* name=nullptr) {
         env_path.c_str()
     );
     if (PyStatus_Exception(status)) { goto exception; }
-
+    // codeBlockEnd;
+    // codeBlock{"id": "init_python", "other":4};
     // 6. Setting executable location:
     status = PyConfig_SetBytesString(
         &config,
