@@ -11,6 +11,11 @@ include_directories(${GTKMM_INCLUDE_DIRS})
 link_directories(${GTKMM_LIBRARY_DIRS})
 add_definitions(${GTKMM_CFLAGS_OTHER})
 
-add_executable(MyGtkmmApp main.cpp)
+add_executable(MyGtkmmApp 
+main.cpp
+Experimental.hpp
+Experimental.cpp
+several-windows.hpp
+several-windows.cpp)
 
 target_link_libraries(MyGtkmmApp ${GTKMM_LIBRARIES})

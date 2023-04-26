@@ -1,6 +1,8 @@
 #include <gtkmm.h>
+#include "Experimental.hpp"
+#include "several-windows.hpp"
 
-// Cours/tutto: https://developer-old.gnome.org/gtkmm-tutorial/3.24/sec-basics-simple-example.html.en
+// Cours/tuto: https://developer-old.gnome.org/gtkmm-tutorial/3.24/sec-basics-simple-example.html.en
 
 int minimal(int argc, char *argv[], char* env[]) {
   auto app =
@@ -14,50 +16,11 @@ int minimal(int argc, char *argv[], char* env[]) {
 }
 
 
-class NewWindow : public Gtk::Window {
-public:
-  NewWindow() {
-    set_default_size(200, 100);
-    set_title("New Window");
-  }
 
-  virtual ~NewWindow() {}
-};
 
-class MainWindow : public Gtk::Window {
-public:
-  MainWindow() {
-    set_default_size(300, 200);
-    set_title("Main Window");
-
-    button.set_label("Open new window");
-    button.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_button_clicked));
-
-    add(button);
-    show_all_children();
-  }
-
-  virtual ~MainWindow() {}
-
-protected:
-  void on_button_clicked() {
-    auto new_window = new NewWindow();
-    new_window->show();
-    new_window->signal_hide().connect([new_window]() { delete new_window; });
-  }
-
-private:
-  Gtk::Button button;
-};
-
-int main(int argc, char *argv[]) {
-  auto app = Gtk::Application::create(argc, argv, "org.gtkmm.example");
-
-  MainWindow main_win;
-  return app->run(main_win);
+int main(int argc, char* argv[]) {
+  return severalWindows(argc, argv);
 }
-
-
 
 /**
  * \page rootpage TESTS GTKMM
