@@ -2,12 +2,13 @@
 #define SEVERAL_WINDOWS_HPP_INCLUDED
 
 #include <gtkmm.h>
+#include <map>
 
 class NewWindow : public Gtk::Window {
 
 public:
 
-    NewWindow();
+    NewWindow(int c);
     virtual ~NewWindow() = default;
 };
 
@@ -27,6 +28,8 @@ protected:
 
 private:
 
+    std::map<NewWindow*, int> instances;
+    int count = 0;
     Gtk::Button button;
 };
 

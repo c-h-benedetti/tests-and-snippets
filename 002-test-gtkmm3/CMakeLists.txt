@@ -6,16 +6,21 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTKMM REQUIRED gtkmm-3.0)
+pkg_check_modules(EPOXY REQUIRED epoxy)
 
-include_directories(${GTKMM_INCLUDE_DIRS})
-link_directories(${GTKMM_LIBRARY_DIRS})
-add_definitions(${GTKMM_CFLAGS_OTHER})
+include_directories(${GTKMM_INCLUDE_DIRS} ${EPOXY_INCLUDE_DIRS})
+link_directories(${GTKMM_LIBRARY_DIRS} ${EPOXY_LIBRARY_DIRS})
 
 add_executable(MyGtkmmApp 
-main.cpp
-Experimental.hpp
-Experimental.cpp
-several-windows.hpp
-several-windows.cpp)
+    main.cpp
+    Experimental.hpp
+    Experimental.cpp
+    several-windows.hpp
+    several-windows.cpp
+    gui-test.hpp
+    gui-test.cpp
+    glarea.hpp
+    glarea.cpp
+)
 
-target_link_libraries(MyGtkmmApp ${GTKMM_LIBRARIES})
+target_link_libraries(MyGtkmmApp ${GTKMM_LIBRARIES} ${EPOXY_LIBRARIES})
