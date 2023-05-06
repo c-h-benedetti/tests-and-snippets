@@ -8,19 +8,17 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTKMM REQUIRED gtkmm-3.0)
 pkg_check_modules(EPOXY REQUIRED epoxy)
 
-include_directories(${GTKMM_INCLUDE_DIRS} ${EPOXY_INCLUDE_DIRS})
-link_directories(${GTKMM_LIBRARY_DIRS} ${EPOXY_LIBRARY_DIRS})
+include_directories(${EPOXY_INCLUDE_DIRS} ${GTKMM_INCLUDE_DIRS})
+link_directories(${EPOXY_LIBRARY_DIRS} ${GTKMM_LIBRARY_DIRS})
 
 add_executable(MyGtkmmApp 
-    main.cpp
-    Experimental.hpp
-    Experimental.cpp
+    minimal_gtk_epoxy.hpp
+    minimal_gtk_epoxy.cpp
+    ogl_window.hpp
+    ogl_window.cpp
     several-windows.hpp
     several-windows.cpp
-    gui-test.hpp
-    gui-test.cpp
-    glarea.hpp
-    glarea.cpp
+    main.cpp
 )
 
-target_link_libraries(MyGtkmmApp ${GTKMM_LIBRARIES} ${EPOXY_LIBRARIES})
+target_link_libraries(MyGtkmmApp ${EPOXY_LIBRARIES} ${GTKMM_LIBRARIES})
