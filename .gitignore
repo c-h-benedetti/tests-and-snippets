@@ -2,4 +2,6 @@ build
 build/.
 documentation
 documentation/.
-
+001-python-embed/build
+002-test-gtkmm3/build
+003-lambda-expressions/build
