@@ -13,9 +13,14 @@ enum Test {
 
 
 Test findTestCase(int argc, char* argv[]) {
-    if (argc <= 1) { return Test::NONE; }
+    if (argc <= 1) {
+        std::cerr << "Available options: 'windows', 'glarea'" << std::endl;
+        return Test::NONE;
+    }
+
     if (strcmp(argv[1], "windows") == 0) { return Test::SEVERAL_WINDOWS; }
     if (strcmp(argv[1], "glarea") == 0) { return Test::GLAREA_EPOXY; }
+    
     std::cerr << "Available options: 'windows', 'glarea'" << std::endl;
     return Test::NONE;
 }
