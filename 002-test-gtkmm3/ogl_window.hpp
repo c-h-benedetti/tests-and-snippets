@@ -2,6 +2,7 @@
 #define OPENGL_WINDOW_BASE_HPP_INCLUDED
 
 #include "minimal_gtk_epoxy.hpp"
+#include "opengl_gtk.hpp"
 #include <gtkmm.h>
 
 class OGLWindow final : public Gtk::Window {
@@ -14,6 +15,19 @@ public:
     ~OGLWindow() = default;
 };
 
+
+class CourseWindow final : public Gtk::Window {
+
+    OpenGlCourse glArea;
+
+public:
+
+    CourseWindow();
+    ~CourseWindow() = default;
+};
+
+
 int glAreaEopxy(int argc, char* argv[]);
+int courseOpenGL(int argc, char* argv[]);
 
 #endif // OPENGL_WINDOW_BASE_HPP_INCLUDED

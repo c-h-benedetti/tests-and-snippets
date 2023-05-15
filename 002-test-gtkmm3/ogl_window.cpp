@@ -15,3 +15,21 @@ int glAreaEopxy(int argc, char* argv[]) {
 
     return app->run(window);
 }
+
+
+
+CourseWindow::CourseWindow(): glArea(75, 75) {
+    this->set_title("OpenGL with Gtkmm and Epoxy");
+    this->set_default_size(1440, 1440);
+    this->add(glArea);
+    this->show_all_children();
+}
+
+
+int courseOpenGL(int argc, char* argv[]) {
+    Glib::RefPtr<Gtk::Application> app = Gtk::Application::create(argc, argv, "org.gtkmm.example");
+
+    CourseWindow window;
+
+    return app->run(window);
+}

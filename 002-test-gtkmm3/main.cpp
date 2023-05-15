@@ -8,20 +8,24 @@
 enum Test {
     NONE,
     SEVERAL_WINDOWS,
-    GLAREA_EPOXY
+    GLAREA_EPOXY,
+    OGL_COURSE
 };
 
 
 Test findTestCase(int argc, char* argv[]) {
+    constexpr char msg[] = "Available options: 'windows', 'glarea', 'course'";
+    
     if (argc <= 1) {
-        std::cerr << "Available options: 'windows', 'glarea'" << std::endl;
+        std::cerr << msg << std::endl;
         return Test::NONE;
     }
 
     if (strcmp(argv[1], "windows") == 0) { return Test::SEVERAL_WINDOWS; }
-    if (strcmp(argv[1], "glarea") == 0) { return Test::GLAREA_EPOXY; }
+    if (strcmp(argv[1], "glarea") == 0)  { return Test::GLAREA_EPOXY; }
+    if (strcmp(argv[1], "course") == 0)  { return Test::OGL_COURSE; }
     
-    std::cerr << "Available options: 'windows', 'glarea'" << std::endl;
+    std::cerr << msg << std::endl;
     return Test::NONE;
 }
 
@@ -34,6 +38,8 @@ int main(int argc, char *argv[]) {
             return severalWindows(0, nullptr);
         case (Test::GLAREA_EPOXY):
             return glAreaEopxy(0, nullptr);
+        case (Test::OGL_COURSE):
+            return courseOpenGL(0, nullptr);
         default:
             return 0;
     };

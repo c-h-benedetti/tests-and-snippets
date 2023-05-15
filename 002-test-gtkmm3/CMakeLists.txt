@@ -16,6 +16,8 @@ add_executable(MyGtkmmApp
     minimal_gtk_epoxy.cpp
     ogl_window.hpp
     ogl_window.cpp
+    opengl_gtk.hpp
+    opengl_gtk.cpp
     several-windows.hpp
     several-windows.cpp
     main.cpp
