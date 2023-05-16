@@ -40,7 +40,7 @@ void OpenGlCourse::on_unrealize() {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
-    glDeleteProgram(shaderProgram);
+    shaderProgram.release();
 
     Gtk::GLArea::on_unrealize();
 }
@@ -58,10 +58,10 @@ bool OpenGlCourse::on_render(const Glib::RefPtr<Gdk::GLContext>& context) {
     glViewport(0, 0, get_allocated_width(), get_allocated_height());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // ultra important de rajouter gl_depth_buffer_bit
 
-    glUseProgram(shaderProgram);
+    shaderProgram.use();
     glBindVertexArray(VAO);
 
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glDrawElements(GL_TRIANGLE_STRIP, eboSz, GL_UNSIGNED_INT, 0);
 
@@ -82,7 +82,7 @@ void OpenGlCourse::make_plan_geometry(float* vbo, uint* ebo) {
     float incre_x = 2.0 / (static_cast<float>(width) - 1.0);
     float incre_y = 2.0 / (static_cast<float>(height) - 1.0);
     index = 0;
-    float x = 0.0, y = 0.0, z = 0.0, factor=0.95;
+    float x = 0.0, y = 0.0, z = 0.0, factor=0.999;
 
     for (size_t l = 0 ; l < height ; l++) {
         bool inv = (l%2 == 0);
@@ -107,50 +107,11 @@ void OpenGlCourse::make_plan() {
 
     this->make_plan_geometry(vbo, indices);
 
-    // Creating Vertex Shader
-    const char* vertexShaderSource =
-        "#version 330 core\n"
-        "layout (location = 0) in vec3 vertex_position;\n"
-        "layout (location = 1) in vec2 uv_position;\n"
-        "out vec3 v_color;\n"
-        "void main() {\n"
-        "   gl_Position = vec4(vertex_position, 1.0);\n"
-        "   v_color = vec3(uv_position, 0.5);\n"
-        "}\n";
-
-
-    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
-
-    this->check_compilation(vertexShader, 0, "VertexShader");
-
-    // Creating Fragment Shader
-    const char* fragmentShaderSource = 
-        "#version 330 core\n"
-        "in vec3 v_color;\n"
-        "out vec4 color;\n"
-        "void main() {\n"
-        "   color = vec4(v_color, 1.0);\n"
-        "}\n";
-    
-    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-
-    this->check_compilation(fragmentShader, 0, "FragmentShader");
-
-
     // Link shaders into a program
-    shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    this->check_compilation(shaderProgram, 1, "ShaderProgram");
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
+    shaderProgram = ProgramShader(
+        "../shaders/vertex_shader.glsl", 
+        "../shaders/fragment_shader.glsl"
+    );
 
     // Creating and binding a VAO, a VBO and a EBO
     glGenVertexArrays(1, &VAO);
@@ -169,41 +130,11 @@ void OpenGlCourse::make_plan() {
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    
-
-    vertexColorLocation = glGetUniformLocation(shaderProgram, "someFloat");
+    // vertexColorLocation = glGetUniformLocation(shaderProgram, "someFloat");
 
     // Unbinding buffers, for safety
     // Le VAO doit être le premier à être unbound. Sinon, il va record le unbind des autres buffers.
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-}
-
-// type == 0: shader
-// type == 1: programm
-bool OpenGlCourse::check_compilation(uint i, int type, const char* who) const {
-    int  success;
-    char infoLog[512];
-
-    if (type == 0){
-        glGetShaderiv(i, GL_COMPILE_STATUS, &success);
-    }
-    else {
-        glGetProgramiv(i, GL_LINK_STATUS, &success);
-    }
-    
-    if(!success) {
-        if (type == 0) {
-            glGetShaderInfoLog(i, 512, NULL, infoLog);
-        }
-        else {
-            glGetProgramInfoLog(i, 512, NULL, infoLog);
-        }
-        
-        std::cerr << "ERROR::" << who << "::COMPILATION_FAILED\n" << infoLog << std::endl;
-        return false;
-    }
-    std::cerr << "Shader or program successfully compiled." << std::endl;
-    return true;
 }

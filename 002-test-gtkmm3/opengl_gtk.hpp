@@ -2,13 +2,14 @@
 #define OPENGL_COURSE_WITH_GTK_HPP_INCLUDED
 
 #include <gtkmm/glarea.h>
+#include "shaders.hpp"
 
 class OpenGlCourse : public Gtk::GLArea {
 
     unsigned int VBO=0;
     unsigned int EBO=0;
     unsigned int VAO=0;
-    unsigned int shaderProgram=0;
+    ProgramShader shaderProgram;
     int vertexColorLocation=0;
     double last=0.0;
 
@@ -20,7 +21,6 @@ class OpenGlCourse : public Gtk::GLArea {
 
 protected:
 
-    bool check_compilation(uint i, int type, const char* who) const;
     void make_plan_geometry(float* vbo, uint* ebo);
 
 public:

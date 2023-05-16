@@ -14,6 +14,8 @@ link_directories(${EPOXY_LIBRARY_DIRS} ${GTKMM_LIBRARY_DIRS})
 add_executable(MyGtkmmApp 
     minimal_gtk_epoxy.hpp
     minimal_gtk_epoxy.cpp
+    shaders.hpp
+    shaders.cpp
     ogl_window.hpp
     ogl_window.cpp
     opengl_gtk.hpp
