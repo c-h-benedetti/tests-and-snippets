@@ -63,6 +63,7 @@ private:
 public:
 
     void use();
+    inline unsigned int get_id() const { return id; }
 
     void attach_shader(const ShaderLoader& sl);
     void release();
@@ -80,5 +81,8 @@ public:
 
 - [ ] Ajouter une méthode pour pouvoir caster ces objets en booléens.
 - [ ] Ajouter une map pour stocker la position des uniforms dans le programme.
+- [ ] La création d'un vertex shader ou d'un fragment shader doit se faire simplement avec l'appel au constructeur.
+- [ ] Permettre de récupérer les uniforms depuis les shaders.
+- [ ] Pour un soft plus tourné vers OpenGL, il pourrait y avoir un shaders manager qui vérifie avec les chemins si un shader n'est pas déjà dispo.
 
 */

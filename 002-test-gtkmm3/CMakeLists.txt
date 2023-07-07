@@ -8,7 +8,12 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTKMM REQUIRED gtkmm-3.0)
 pkg_check_modules(EPOXY REQUIRED epoxy)
 
-include_directories(${EPOXY_INCLUDE_DIRS} ${GTKMM_INCLUDE_DIRS})
+include_directories(
+    ${EPOXY_INCLUDE_DIRS} 
+    ${GTKMM_INCLUDE_DIRS}
+    "glm"
+)
+
 link_directories(${EPOXY_LIBRARY_DIRS} ${GTKMM_LIBRARY_DIRS})
 
 add_executable(MyGtkmmApp 
@@ -22,6 +27,8 @@ add_executable(MyGtkmmApp
     opengl_gtk.cpp
     several-windows.hpp
     several-windows.cpp
+    stb_image.h
+    stb_image.cpp
     main.cpp
 )
 

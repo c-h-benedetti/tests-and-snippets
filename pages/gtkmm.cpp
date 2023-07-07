@@ -32,7 +32,7 @@ Le code minimal pour un setup OpenGL qui dessine un rectangle est dans: `002-tes
 ### 1. Setup d'OpenGL
 
 - Le signal `on_realize` est émis quand le widget a bien été assigné et qu'il est prêt à être déssiné. C'est dans cette méthode qu'il faut déclarer et remplir les VBOs, EBOs, ... 
-- Cette méthode est virtuelle dans `Gtl::GLArea` et doit être `override` dans notre classe. De plus, la première chose qu'on doit y faire est de faire appel à la méthode du parent.
+- Cette méthode est virtuelle dans `Gtk::GLArea` et doit être `override` dans notre classe. De plus, la première chose qu'on doit y faire est de faire appel à la méthode du parent.
 - Le contexte OpenGL est ici valide.
 
 \code{.cpp}

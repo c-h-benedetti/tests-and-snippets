@@ -18,9 +18,9 @@ int glAreaEopxy(int argc, char* argv[]) {
 
 
 
-CourseWindow::CourseWindow(): glArea(101, 101) {
+CourseWindow::CourseWindow(): glArea(501, 301) {
     this->set_title("OpenGL with Gtkmm and Epoxy");
-    this->set_default_size(1440, 1440);
+    this->set_default_size(1854, 1440);
     this->add(glArea);
     this->show_all_children();
 }

@@ -37,7 +37,10 @@ bool ShaderLoader::from_file(const std::filesystem::path& p) {
 }
 
 void ShaderLoader::compile(const std::string& c) {
-    if (id == 0) { return; }
+    if (id == 0) {
+        loaded = false;
+        return;
+    }
     const char* s = c.c_str();
     glShaderSource(id, 1, &s, NULL);
     glCompileShader(id);
