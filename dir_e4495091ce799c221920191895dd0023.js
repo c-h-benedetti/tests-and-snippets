@@ -4,5 +4,6 @@ var dir_e4495091ce799c221920191895dd0023 =
     [ "ogl_window.hpp", "ogl__window_8hpp_source.html", null ],
     [ "opengl_gtk.hpp", "opengl__gtk_8hpp_source.html", null ],
     [ "several-windows.hpp", "several-windows_8hpp_source.html", null ],
-    [ "shaders.hpp", "shaders_8hpp_source.html", null ]
+    [ "shaders.hpp", "shaders_8hpp_source.html", null ],
+    [ "stb_image.h", "stb__image_8h_source.html", null ]
 ];

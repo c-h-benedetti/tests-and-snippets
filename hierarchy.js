@@ -13,6 +13,7 @@ var hierarchy =
       [ "VertexShaderLoader", "classVertexShaderLoader.html", null ]
     ] ],
     [ "SomeClass", "classSomeClass.html", null ],
+    [ "stbi_io_callbacks", "structstbi__io__callbacks.html", null ],
     [ "Gtk::Window", null, [
       [ "CourseWindow", "classCourseWindow.html", null ],
       [ "MainWindow", "classMainWindow.html", null ],
