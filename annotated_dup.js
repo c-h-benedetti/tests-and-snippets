@@ -29,6 +29,7 @@ var annotated_dup =
     [ "NewWindow", "classNewWindow.html", "classNewWindow" ],
     [ "OGLWindow", "classOGLWindow.html", "classOGLWindow" ],
     [ "OpenGlCourse", "classOpenGlCourse.html", "classOpenGlCourse" ],
+    [ "Primitive", "structPrimitive.html", "structPrimitive" ],
     [ "ProgramShader", "classProgramShader.html", "classProgramShader" ],
     [ "ShaderLoader", "classShaderLoader.html", "classShaderLoader" ],
     [ "SomeClass", "classSomeClass.html", "classSomeClass" ],

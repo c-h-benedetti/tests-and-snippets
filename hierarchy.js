@@ -7,6 +7,7 @@ var hierarchy =
     [ "object", null, [
       [ "dump.CSVtable", "classdump_1_1CSVtable.html", null ]
     ] ],
+    [ "Primitive", "structPrimitive.html", null ],
     [ "ProgramShader", "classProgramShader.html", null ],
     [ "ShaderLoader", "classShaderLoader.html", [
       [ "FragmentShaderLoader", "classFragmentShaderLoader.html", null ],
