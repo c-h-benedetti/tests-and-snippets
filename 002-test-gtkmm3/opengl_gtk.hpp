@@ -3,10 +3,58 @@
 
 #include <random>
 #include <gtkmm/glarea.h>
+#include <vector>
 #include "shaders.hpp"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
+
+
+struct Primitive {
+    unsigned int VBO=0;
+    unsigned int EBO=0;
+    unsigned int VAO=0;
+    glm::mat4 model = glm::mat4(1.0f);
+};
+
+
+class OpenGlCourse : public Gtk::GLArea {
+    
+    size_t window_height;
+    size_t window_width;
+
+    // clés: id de shader
+    std::map<unsigned int, std::vector<Primitive>> objects;
+    std::map<unsigned int, ProgramShader> shaders;
+
+private:
+
+    void make_plane_geometry();
+
+public:
+
+    OpenGlCourse(int h, int w, bool animate=false);
+    ~OpenGlCourse();
+
+    void on_realize() override;
+    void on_unrealize() override;
+    void on_resize(int w, int h) override;
+    bool on_render(const Glib::RefPtr<Gdk::GLContext>& context) override;
+
+    void make_plane(uint v_width, uint v_height, ProgramShader& shader);
+    void make_sphere(ProgramShader& shader);
+    void make_cube(ProgramShader& shader);
+
+    inline void refresh() { this->queue_render(); }
+
+    ProgramShader& add_shader(const char* v_shader=nullptr, const char* f_shader=nullptr);
+};
+
+
+void exercice_001(OpenGlCourse& glarea);
+
+
+/*
 
 class OpenGlCourse : public Gtk::GLArea {
 
@@ -34,6 +82,9 @@ class OpenGlCourse : public Gtk::GLArea {
     uint nVtces;
     uint eboSz;
 
+    size_t window_height;
+    size_t window_width;
+
     std::default_random_engine generator;
     std::uniform_real_distribution<float> distribution;
 
@@ -44,11 +95,10 @@ protected:
 
 public:
 
-    OpenGlCourse(uint v_width, uint v_height);
+    OpenGlCourse(uint v_width, uint v_height, size_t w_height, size_t w_width);
     virtual ~OpenGlCourse();
 
     void make_plan();
-    bool animate(const Glib::RefPtr<Gdk::FrameClock>& frame_clock);
 
 public:
 
@@ -58,5 +108,7 @@ public:
     void on_resize(int w, int h) override;
 };
 
+
+*/
 
 #endif // OPENGL_COURSE_WITH_GTK_HPP_INCLUDED

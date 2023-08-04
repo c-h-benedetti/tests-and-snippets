@@ -14,4 +14,5 @@ void main() {
     gl_Position = transfo * vec4(vertex_position, 1.0);
     v_color = vec3(uv_position, 0.5);
     uv_pos = uv_position;
+    v_pos = gl_Position.xyz / gl_Position.w;
 }

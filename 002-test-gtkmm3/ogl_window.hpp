@@ -19,10 +19,12 @@ public:
 class CourseWindow final : public Gtk::Window {
 
     OpenGlCourse glArea;
+    size_t window_height;
+    size_t window_width;
 
 public:
 
-    CourseWindow();
+    CourseWindow(size_t h, size_t w);
     ~CourseWindow() = default;
 };
 

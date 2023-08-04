@@ -3,6 +3,8 @@
 
 #include <filesystem>
 #include <string>
+#include <vector>
+#include <map>
 
 class ShaderLoader {
 
@@ -54,6 +56,8 @@ class ProgramShader {
     
     unsigned int id;
     bool loaded;
+    std::map<std::string, int> uniforms;
+    std::vector<unsigned int> textures;
 
 private:
 
@@ -64,6 +68,8 @@ public:
 
     void use();
     inline unsigned int get_id() const { return id; }
+    void locate_uniforms(const std::vector<const char*>& variables);
+    void set_texture(const char* var, const char* path);
 
     void attach_shader(const ShaderLoader& sl);
     void release();

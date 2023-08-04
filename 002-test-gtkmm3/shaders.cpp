@@ -4,6 +4,7 @@
 #include <fstream>
 #include <cstring>
 #include <iostream>
+#include "stb_image.h"
 
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
@@ -91,6 +92,18 @@ void FragmentShaderLoader::create_shader(const std::string& s) {
 
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
+void ProgramShader::locate_uniforms(const std::vector<const char*>& variables) {
+    this->use();
+    for (const char* name : variables) {
+        int loc = glGetUniformLocation(this->id, name);
+        if (loc == -1) {
+            std::cerr << "Failed to locate the uniform variable: " << name << std::endl;
+            continue;
+        }
+        this->uniforms[name] = loc;
+    }
+}
+
 void ProgramShader::attach_shader(const ShaderLoader& sl) {
     if (id == 0) { return; }
     if (sl.get_raw_id() == 0) { return; }
@@ -100,6 +113,11 @@ void ProgramShader::attach_shader(const ShaderLoader& sl) {
 
 void ProgramShader::release() {
     if (id == 0) { return; }
+    
+    for (size_t i = 0 ; i < textures.size() ; i++) {
+        glDeleteTextures(1, &textures[i]);
+    }
+    
     glDeleteProgram(id);
     id = 0;
 }
@@ -139,17 +157,52 @@ ProgramShader::ProgramShader(const VertexShaderLoader& vsl, const FragmentShader
 
 void ProgramShader::use() {
     glUseProgram(id);
+
+    for (size_t i = 0 ; i < textures.size() ; i++) {
+        glActiveTexture(GL_TEXTURE0+i);
+        glBindTexture(GL_TEXTURE_2D, textures[i]);
+    }
 }
 
 ProgramShader::ProgramShader(const std::filesystem::path& vs_path, const std::filesystem::path& fs_path) {
-    // Creating vertex & fragment shader
-    VertexShaderLoader vsl;
-    vsl.from_file(vs_path);
-    FragmentShaderLoader fsl;
-    fsl.from_file(fs_path);
     
     id = glCreateProgram();
-    this->attach_shader(vsl);
-    this->attach_shader(fsl);
+
+    if (vs_path.string().size() > 0) {
+        VertexShaderLoader vsl;
+        vsl.from_file(vs_path);
+        this->attach_shader(vsl);
+    }
+
+    if (fs_path.string().size() > 0) {
+        FragmentShaderLoader fsl;
+        fsl.from_file(fs_path);
+        this->attach_shader(fsl);
+    }
+    
     this->link();
 }
+
+void ProgramShader::set_texture(const char* var, const char* path) {
+    
+    int t_width, t_height, nChannels;
+    u_char* data = stbi_load(path, &t_width, &t_height, &nChannels, 3);
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    this->textures.push_back(texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, t_width, t_height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    stbi_image_free(data);
+    data = nullptr;
+
+    int a = this->uniforms[var];
+
+    glUniform1i(a, this->textures.size()-1);
+}
+
+// - [ ] Il devrait plutôt y avoir un TexturesManager pour qu'une même texture soit utilisée par plusieurs objets.
+// - [ ] Pour la GUI, il sera préférable d'avoir une image qui contient tous les skins.
+//       On pourra en créer une autre au lancement pour les icônes customs des utilisateurs.
