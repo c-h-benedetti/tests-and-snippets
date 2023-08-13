@@ -1,6 +1,14 @@
 import os
 import sys
 import csv
+import spam
+from thing import theFunction
+
+spam.system("ls -a")
+k = 5
+print(f"Factorial of {k} is {spam.factorial(k)}.")
+
+theFunction()
 
 class CSVtable(object):
 

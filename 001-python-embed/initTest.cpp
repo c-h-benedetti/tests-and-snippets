@@ -1,47 +1,55 @@
+#define PY_SSIZE_T_CLEAN
 #include <Python.h>
+#include "spammodule.h"
 #include <string>
 #include <filesystem>
 #include <iostream>
-#include <initializer_list>
+#include <vector>
 #include <cstdlib>
+#include <stdexcept>
 
-// codeBlock{"id": "envPathSeparator", "other":4};
+// Separator character used in the PATH envionment variable according to the OS.
 #ifdef _WIN32
     #define DELIM ';'
 #else
     #define DELIM ':'
 #endif
-// codeBlockEnd;
+
 
 using Path = std::filesystem::path;
 
-// codeBlock{"id": "makeFullPath", "other":4};
-std::string makeFullPath(const std::initializer_list<Path>& chunks) {
-    std::string buffer = "";
-
-    if (std::empty(chunks)) { return buffer; }
+/**
+ * @brief Creates an environment path from the chunks passed as parameters.
+ */
+std::string makeFullPath(const std::vector<Path>& chunks) {
+    if (std::empty(chunks)) { throw std::invalid_argument("Cannot build path from empty list of chunks."); }
+    std::string buffer = chunks[0];
     
-    for (const Path& p : chunks) {
-        buffer += p.c_str();
+    for (size_t i = 1 ; i < chunks.size() ; i++) {
         buffer += DELIM;
+        buffer += chunks[i];
     }
-    return buffer.substr(0, buffer.size()-1);
-}
-// codeBlockEnd;
 
-// codeBlock{"id": "init_python_p1", "other":4};
+    return buffer;
+}
+
+
+/**
+ * @brief Creates valid context for a Python interpreter.
+ * @param appPath Absolute path of the folder in which the binary is located. Corresponds to `argv[0]`.
+ * @param name Program name (facultative)
+ */
 void init_python(const char* appPath, const char* name=nullptr) {
     
     // = Définition de tous les chemins que l'interpréteur Python doit connaitre =
-    Path software_path    = std::filesystem::absolute(
-        std::filesystem::path(appPath).parent_path());
-    Path python_home_path = software_path / "python";
+    Path software_path    = std::filesystem::absolute(std::filesystem::path(appPath).parent_path());
+    Path python_home_path = software_path / "cpython-3.10";
     Path executable_path  = python_home_path / "python";
 
     std::string env_path    = makeFullPath({
-        python_home_path / "Lib",
-        software_path / "custom",
-        python_home_path / "build/lib.linux-x86_64-3.10"
+        python_home_path / "Lib", // built-in modules.
+        software_path    / "custom", // folder for user's modules.
+        python_home_path / "build/lib.linux-x86_64-3.10" // binaries (.so) supporting built-in modules.
     });    
 
     // = Construction de la configuration =
@@ -103,7 +111,7 @@ exception:
     PyConfig_Clear(&config);
     Py_ExitStatusException(status);
 }
-// codeBlockEnd;
+
 
 /*
 
@@ -117,6 +125,12 @@ exception:
 */
 
 int main(int argc, char* argv[], char* env[]) {
+
+    if (PyImport_AppendInittab("spam", PyInit_spam) == -1) {
+        fprintf(stderr, "Error: could not extend in-built modules table\n");
+        return 1;
+    }
+
     // Initialisation de l'environnement Python
     init_python(argv[0]);
 
@@ -126,10 +140,12 @@ int main(int argc, char* argv[], char* env[]) {
     fclose(fp);
 
     // Depuis un module custom
-    PyRun_SimpleString(
-        "from thing import theFunction\n"
-        "theFunction()\n"
-    );
+    // PyRun_SimpleString(
+    //     "from thing import theFunction\n"
+    //     "theFunction()\n"
+    //     "import spam\n"
+    //     "print(\"Factorial of 5: \", spam.factorial(5))\n"
+    // );
     
     // Finaliser l'interpréteur Python
     Py_Finalize();

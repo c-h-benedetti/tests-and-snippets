@@ -9,7 +9,7 @@ int main(int argc, char *argv[], char* env[]) {
     std::filesystem::path executable_path = std::filesystem::absolute(std::filesystem::path(argv[0]).parent_path());
     
     // Définition des variables d'environnement:
-    std::filesystem::path pythonHome = executable_path / "python";
+    std::filesystem::path pythonHome = executable_path / "cpython-3.10";
     std::filesystem::path pythonPath = pythonHome / "Lib";
     std::filesystem::path pythonBin  = pythonHome / "build/lib.linux-x86_64-3.10";
         
@@ -53,8 +53,8 @@ int main(int argc, char *argv[], char* env[]) {
 
 /*
 
-clear && g++ -Wall -std=c++20 main.cpp -L/media/clement/376DD68B604D847C/python-test/python/Lib -L/media/clement/376DD68B604D847C/python-test/python -lpython3.10 -I/media/clement/376DD68B604D847C/python-test/python/Include -lpthread -o MAIN && ./MAIN
-clear && g++ -Wall -std=c++20 main.cpp -L/media/clement/376DD68B604D847C/python-test/python/Lib -L/media/clement/376DD68B604D847C/python-test/python -ldl -lm -lpthread -lutil -lrt -lpython3.10 -I/media/clement/376DD68B604D847C/python-test/python/Include -o MAIN && ./MAIN
+clear && g++ -Wall -std=c++20 main.cpp -L/home/clement/Desktop/tests-and-snippets/001-python-embed/cpython-3.10/Lib -L/home/clement/Desktop/tests-and-snippets/001-python-embed/cpython-3.10 -lpython3.10 -I/home/clement/Desktop/tests-and-snippets/001-python-embed/cpython-3.10/Include -lpthread -o MAIN && ./MAIN
+clear && g++ -Wall -std=c++20 main.cpp -L/home/clement/Desktop/tests-and-snippets/001-python-embed/cpython-3.10/Lib -L/home/clement/Desktop/tests-and-snippets/001-python-embed/cpython-3.10 -ldl -lm -lpthread -lutil -lrt -lpython3.10 -I/home/clement/Desktop/tests-and-snippets/001-python-embed/cpython-3.10/Include -o MAIN && ./MAIN
 
-clear && g++ -Wall -std=c++20 main.cpp -o MAIN -I/media/clement/376DD68B604D847C/python-test/python/Include -L/media/clement/376DD68B604D847C/python-test/python/Lib -L/media/clement/376DD68B604D847C/python-test/python -lpython3.10 -ldl -lm -lpthread -lutil -lrt && ./MAIN
+clear && g++ -Wall -std=c++20 main.cpp -o MAIN -I/home/clement/Desktop/tests-and-snippets/001-python-embed/cpython-3.10/Include -L/home/clement/Desktop/tests-and-snippets/001-python-embed/cpython-3.10/Lib -L/home/clement/Desktop/tests-and-snippets/001-python-embed/cpython-3.10 -lpython3.10 -ldl -lm -lpthread -lutil -lrt && ./MAIN
 */

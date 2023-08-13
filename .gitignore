@@ -3,5 +3,7 @@ build/.
 documentation
 documentation/.
 001-python-embed/build
+001-python-embed/cpython-3.10
+001-python-embed/custom/__pycache__
 002-test-gtkmm3/build
 003-lambda-expressions/build
