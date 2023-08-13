@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Tests &amp; Snippets: ⊹ Notes Gtkmm3</title>
+<title>Tests &amp; Snippets: ⊹ Notes Python Embeding</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,7 +63,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('gtmmpage.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('embedpythonpage.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -83,37 +83,37 @@ $(document).ready(function(){initNavTree('gtmmpage.html',''); initResizable(); }
 
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">⊹ Notes Gtkmm3 </div>  </div>
+<div class="title">⊹ Notes Python Embeding </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><ul>
-<li><b>Tutoriel officiel:</b> <a href="https://developer-old.gnome.org/gtkmm-tutorial/3.24/sec-basics-simple-example.html.en">https://developer-old.gnome.org/gtkmm-tutorial/3.24/sec-basics-simple-example.html.en</a></li>
-<li><b>Tests Epoxy:</b> <a href="https://github.com/anholt/libepoxy/tree/master/test">https://github.com/anholt/libepoxy/tree/master/test</a></li>
+<li><b>Releases de CPython:</b> <a href="https://github.com/python/cpython/tags">https://github.com/python/cpython/tags</a></li>
+<li><b>Extension et embedding:</b> <a href="https://docs.python.org/3.10/extending/index.html">https://docs.python.org/3.10/extending/index.html</a></li>
+<li><b>Empaqueter des binaires:</b> <a href="https://packaging.python.org/en/latest/guides/packaging-binary-extensions/">https://packaging.python.org/en/latest/guides/packaging-binary-extensions/</a></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md13"></a>
+<h2><a class="anchor" id="autotoc_md2"></a>
 Notes:</h2>
 <ul>
-<li><code>&lt;gtkmm.h&gt;</code> inclus tous les headers de gtkmm. Ça peut être utile pour les tests, mais pour les versions finales, il vaut mieux ne garder que les headers nécessaires.</li>
-<li>Le string en troisième argument de la fonction <code>Gtk::Application::create</code> correspond à l'identifiant unique de l'application, qui permet de s'assurer qu'une seule instance de l'application est lancée à la fois. Si une deuxième instance est lancée avec le même identifiant, elle ne sera pas lancée et la première instance sera mise en avant-plan. Cet identifiant est généralement une chaîne de caractères unique pour chaque application, par exemple le nom de l'entreprise ou de l'organisation suivi du nom de l'application.</li>
-<li>Quand on veut connecter une fonction de callback à un signal, passer une <a class="el" href="lambdaexprpage.html">lambda expression </a> a l'air d'être une bien meilleure alternative dans beaucoup de cas, plutôt que d'utiliser <code>sigc::mem_fun()</code>. On peut même écrire le corps de la fonction directement dans le code du connect.</li>
-<li>Si on doit passer des arguments à la ligne de commande, il faut que l'objet application reçoive une autre version car sinon il va essayer de lire des paramètres qu'il n'est pas censé voir.</li>
+<li>CPython est simplement le code source de Python non-compilé.</li>
+<li>Blender, qui a un des meilleurs Python intégrés, n'utilise rien d'autres que l'API de CPython (pas Cython, cffi, SWIG ou Numba)</li>
+<li>Le header <code>&lt;Python.h&gt;</code> doit être inclus avant tout autre module.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md14"></a>
+<h2><a class="anchor" id="autotoc_md3"></a>
 Objectifs:</h2>
 <ul>
-<li>🔘 Faire un CMakeLists.txt pour utiliser gtkmm.</li>
-<li>🔘 Pouvoir ouvrir une fenêtre principale et des fenêtres secondaires.</li>
-<li>🔘 Générer une fenêtre qui contient un contexte OpenGL et Epoxy.</li>
-<li>🔘 Faire un setup pour utiliser OpenGL.</li>
-<li>⚪️ Pour zoomer et translater dans la fenêtre affichant une image.</li>
-<li>⚪️ Être capable d'afficher des boutons dans la barre de titre.</li>
-<li>⚪️ Être capable d'ouvrir des menus.</li>
+<li>🔘 Arriver à compiler Python et exécuter un script depuis le binaire C++.</li>
+<li>⚪️ Faire un CMakeLists.txt pour télécharger et compiler CPython.</li>
+<li>⚪️ Pouvoir télécharger et compiler CPython depuis le CMake.</li>
+<li>⚪️ Créer des objets manipulables en Python depuis C++.*</li>
+<li>⚪️ Gérer le fait que les paths ne sont pas obligatoirement que du ascii dans <code>init_python</code>.</li>
+<li>⚪️ Est-il possible d'avoir plusieurs Pythons en même temps vu que les fonctions ont l'air globales ? Cela dépend-il seulement du dernier contexte créé ?</li>
+<li>⚪️ Créer un type de données qui peut devenir un tableau <code>numpy</code>.</li>
 </ul>
 <hr  />
-<h2><a class="anchor" id="autotoc_md16"></a>
-📌 Gtk::GLArea:</h2>
+<h2><a class="anchor" id="autotoc_md5"></a>
+📌 Compilation de CPython:</h2>
 <p>Le code minimal pour un setup OpenGL qui dessine un rectangle est dans: <code>002-test-gtkmm3/minimal_gtk_epoxy.cpp</code>.</p>
-<h3><a class="anchor" id="autotoc_md17"></a>
+<h3><a class="anchor" id="autotoc_md6"></a>
 1. Setup d'OpenGL</h3>
 <ul>
 <li>Le signal <code>on_realize</code> est émis quand le widget a bien été assigné et qu'il est prêt à être déssiné. C'est dans cette méthode qu'il faut déclarer et remplir les VBOs, EBOs, ...</li>
@@ -130,9 +130,9 @@ Objectifs:</h2>
 <div class="line">    GLenum error = glGetError();</div>
 <div class="line">    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);</div>
 <div class="line">}</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md18"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md7"></a>
 2. Setup de rendu basique</h3>
-<h4><a class="anchor" id="autotoc_md19"></a>
+<h4><a class="anchor" id="autotoc_md8"></a>
 Étapes pour un rendu</h4>
 <ul>
 <li>Créer les données à rendre (vertices, faces, uv, couleurs, ...)</li>
@@ -146,24 +146,24 @@ Objectifs:</h2>
 <div class="fragment"><div class="line">glBindVertexArray(0);</div>
 <div class="line">glBindBuffer(GL_ARRAY_BUFFER, 0);</div>
 <div class="line">glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md20"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md9"></a>
 Notes</h4>
 <ul>
 <li>Ne pas oublier le tag <code>GL_DEPTH_BUFFER_BIT</code> dans <code>glClear()</code> si <code>set_has_depth_buffer(true)</code> a été utilisé dans le constructeur. Sinon, rien ne sera rendu à l'écran sauf si la fenêtre est resized.</li>
 <li>Quand on fait un setup de rendu, le VAO doit être le premier unbound, sinon, il record le fait qu'on fasse debind les buffers.</li>
 <li>Dans la fonction <code>glVertexAttribPointer</code>, le premier index est celui qui doit être donné à <code>glEnableVertexAttribArray</code> ainsi que celui dans le shader dans <code>(layout = N)</code>.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md21"></a>
+<h3><a class="anchor" id="autotoc_md10"></a>
 3. Le rendu</h3>
 <ul>
 <li>Les buffers sont automatiquement swapped dans <code>on_render()</code>.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md22"></a>
+<h3><a class="anchor" id="autotoc_md11"></a>
 4. Destruction du contexte</h3>
 <ul>
 <li><code>on_unrealize</code> est émis quand le contexte OpenGL est encore valide, juste avant que l'objet de soit détruit. C'est le moment de détruire toutes les ressources OpenGL (qui ne seront plus accessible quand le contexte OpenGL ne sera plus valide).</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md23"></a>
+<h2><a class="anchor" id="autotoc_md12"></a>
 📌 Epoxy:</h2>
 <ul>
 <li>Équivalent de GLAD ou même GLEW, permet de faciliter l'utilisation de fonctions OpenGL.</li>

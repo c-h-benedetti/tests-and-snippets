@@ -86,9 +86,9 @@ $(document).ready(function(){initNavTree('lambdaexprpage.html',''); initResizabl
 <div class="title">⊹ Notes λ-expressions </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h2><a class="anchor" id="autotoc_md13"></a>
+<div class="textblock"><h2><a class="anchor" id="autotoc_md24"></a>
 Généralités:</h2>
-<h3><a class="anchor" id="autotoc_md14"></a>
+<h3><a class="anchor" id="autotoc_md25"></a>
 La liste de captures, qui permet de capturer des variables externes pour les utiliser dans la lambda expression. On peut spécifier les captures de différentes manières :</h3>
 <ul>
 <li><code>[&amp;]</code> pour capturer toutes les variables par référence ;</li>
@@ -97,7 +97,7 @@ La liste de captures, qui permet de capturer des variables externes pour les uti
 <li><code>[&amp;var1, &amp;var2]</code> pour capturer des variables spécifiques par référence;</li>
 <li><code>[v = expr]</code> pour faire une "init capture", c'est-à-dire créer une nouvelle variable valable dans le corps de l'expression.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md15"></a>
+<h3><a class="anchor" id="autotoc_md26"></a>
 Les spécificateurs de fonction, qui permettent de définir des propriétés supplémentaires pour la lambda expression, tels que la constance ou la volatilité. On peut spécifier les spécificateurs de fonction de différentes manières :</h3>
 <ul>
 <li><code>() -&gt; int</code> pour spécifier le type de retour de la lambda expression ;</li>
@@ -105,7 +105,7 @@ Les spécificateurs de fonction, qui permettent de définir des propriétés sup
 <li><code>() noexcept</code> pour spécifier que la lambda expression ne lance pas d'exception ;</li>
 <li><code>() -&gt; int const &amp;</code> pour spécifier le type de retour de la lambda expression comme une référence constante.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md16"></a>
+<h3><a class="anchor" id="autotoc_md27"></a>
 Les paramètres de la lambda expression, qui sont spécifiés après les spécificateurs de fonction et qui décrivent les arguments que la lambda expression prend. On peut spécifier les paramètres de différentes manières :</h3>
 <ul>
 <li><code>()</code> pour spécifier une lambda expression qui ne prend aucun argument ;</li>
@@ -113,7 +113,7 @@ Les paramètres de la lambda expression, qui sont spécifiés après les spécif
 </ul>
 <p><b>Note:</b> Les crochets peuvent être laissés vides si aucun comportement spécial n'est requis.</p>
 <hr  />
-<h2><a class="anchor" id="autotoc_md18"></a>
+<h2><a class="anchor" id="autotoc_md29"></a>
 📌 Init capture</h2>
 <p>Dans les crochets, il est possible de créer une nouvelle variable utilisable dans le corps de l'expression. Modifier les variables externes après la déclaration ne sert à rien, la variable est évaluée à la définition.</p>
 <div class="fragment"><div class="line">    <span class="keywordtype">int</span> x = 2, y = 3;</div>
@@ -122,7 +122,7 @@ Les paramètres de la lambda expression, qui sont spécifiés après les spécif
 <div class="line">    x = 4;</div>
 <div class="line">    y = 5;</div>
 <div class="line">    l1(); <span class="comment">// 5</span></div>
-</div><!-- fragment --> <h2><a class="anchor" id="autotoc_md19"></a>
+</div><!-- fragment --> <h2><a class="anchor" id="autotoc_md30"></a>
 📌 Avec SigC</h2>
 <p>Grace aux λ-expressions, on peut remplacer la première ligne par la seconde, qui est nettement plus lisible. Il est même possible de donner directement le corps dans l'appel de la fonction dans ce cas.</p>
 <div class="fragment"><div class="line"><a class="code" href="classGLArea.html">GLArea</a> glArea;</div>

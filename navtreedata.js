@@ -28,6 +28,7 @@ var NAVTREE =
     [ "Tests & Snippets", "md_README.html", [
       [ "001. Python embeding", "md_README.html#autotoc_md1", null ]
     ] ],
+    [ "⊹ Notes Python Embeding", "embedpythonpage.html", null ],
     [ "⊹ Notes Gtkmm3", "gtmmpage.html", null ],
     [ "⊹ Notes λ-expressions", "lambdaexprpage.html", null ],
     [ "Classes", "annotated.html", [

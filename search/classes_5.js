@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['oglwindow_23',['OGLWindow',['../classOGLWindow.html',1,'']]],
-  ['openglcourse_24',['OpenGlCourse',['../classOpenGlCourse.html',1,'']]]
+  ['oglwindow_24',['OGLWindow',['../classOGLWindow.html',1,'']]],
+  ['openglcourse_25',['OpenGlCourse',['../classOpenGlCourse.html',1,'']]]
 ];
