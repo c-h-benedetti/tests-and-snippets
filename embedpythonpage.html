@@ -18,6 +18,7 @@
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -86,40 +87,58 @@ $(document).ready(function(){initNavTree('embedpythonpage.html',''); initResizab
 <div class="title">⊹ Notes Python Embeding </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><ul>
-<li><b>Releases de CPython:</b> <a href="https://github.com/python/cpython/tags">https://github.com/python/cpython/tags</a></li>
-<li><b>Extension et embedding:</b> <a href="https://docs.python.org/3.10/extending/index.html">https://docs.python.org/3.10/extending/index.html</a></li>
-<li><b>Empaqueter des binaires:</b> <a href="https://packaging.python.org/en/latest/guides/packaging-binary-extensions/">https://packaging.python.org/en/latest/guides/packaging-binary-extensions/</a></li>
-</ul>
+<div class="textblock"><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Topic   </th><th class="markdownTableHeadNone">Link    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>Releases de CPython</b>   </td><td class="markdownTableBodyNone"><a href="https://github.com/python/cpython/tags">https://github.com/python/cpython/tags</a>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>Extension et embedding</b>   </td><td class="markdownTableBodyNone"><a href="https://docs.python.org/3.10/extending/index.html">https://docs.python.org/3.10/extending/index.html</a>    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>Empaqueter des binaires</b>   </td><td class="markdownTableBodyNone"><a href="https://packaging.python.org/en/latest/guides/packaging-binary-extensions/">https://packaging.python.org/en/latest/guides/packaging-binary-extensions/</a>   </td></tr>
+</table>
 <h2><a class="anchor" id="autotoc_md2"></a>
-Notes:</h2>
+📖 Notes:</h2>
 <ul>
 <li>CPython est simplement le code source de Python non-compilé.</li>
 <li>Blender, qui a un des meilleurs Python intégrés, n'utilise rien d'autres que l'API de CPython (pas Cython, cffi, SWIG ou Numba)</li>
 <li>Le header <code>&lt;Python.h&gt;</code> doit être inclus avant tout autre module.</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md3"></a>
-Objectifs:</h2>
+🚀 Objectifs:</h2>
 <ul>
-<li>🔘 Arriver à compiler Python et exécuter un script depuis le binaire C++.</li>
-<li>⚪️ Faire un CMakeLists.txt pour télécharger et compiler CPython.</li>
-<li>⚪️ Pouvoir télécharger et compiler CPython depuis le CMake.</li>
-<li>⚪️ Créer des objets manipulables en Python depuis C++.*</li>
-<li>⚪️ Gérer le fait que les paths ne sont pas obligatoirement que du ascii dans <code>init_python</code>.</li>
-<li>⚪️ Est-il possible d'avoir plusieurs Pythons en même temps vu que les fonctions ont l'air globales ? Cela dépend-il seulement du dernier contexte créé ?</li>
-<li>⚪️ Créer un type de données qui peut devenir un tableau <code>numpy</code>.</li>
+<li>[X] Arriver à compiler Python et exécuter un script depuis le binaire C++.</li>
+<li>[X] Faire un CMakeLists.txt pour télécharger et compiler CPython.</li>
+<li>[X] Arranger le CMakeLists.txt pour qu'il injecte le build path comme variable de préprocesseur dans le C++.</li>
+<li>[ ] Encapsuler la création et destruction de contexte Python dans un objet plutôt que dans des fonctions.</li>
+<li>[ ] Créer en C++ des objets manipulables depuis Python.</li>
+<li>[ ] Gérer le fait que les paths ne sont pas obligatoirement que du AscII dans <code>init_python</code>.</li>
+<li>[ ] Est-il possible d'avoir plusieurs Pythons en même temps vu que les fonctions ont l'air globales ? Cela dépend-il seulement du dernier contexte créé ?</li>
+<li>[ ] Créer un type de données qui peut devenir un tableau <code>numpy</code>.</li>
+<li>[ ] Est-ce que certaines données doivent être stockées exclusivement côté C++ ?</li>
 </ul>
 <hr  />
 <h2><a class="anchor" id="autotoc_md5"></a>
-📌 Compilation de CPython:</h2>
-<p>Le code minimal pour un setup OpenGL qui dessine un rectangle est dans: <code>002-test-gtkmm3/minimal_gtk_epoxy.cpp</code>.</p>
+🛠️ Compilation de CPython dans du C++:</h2>
 <h3><a class="anchor" id="autotoc_md6"></a>
-1. Setup d'OpenGL</h3>
+1. Téléchargement de CPython</h3>
 <ul>
-<li>Le signal <code>on_realize</code> est émis quand le widget a bien été assigné et qu'il est prêt à être déssiné. C'est dans cette méthode qu'il faut déclarer et remplir les VBOs, EBOs, ...</li>
-<li>Cette méthode est virtuelle dans <code>Gtk::GLArea</code> et doit être <code>override</code> dans notre classe. De plus, la première chose qu'on doit y faire est de faire appel à la méthode du parent.</li>
-<li>Le contexte OpenGL est ici valide.</li>
+<li>La première étape est de télécharger une version stable du code source depuis une release (tag) du dépôt de CPython.</li>
+<li>Ce code est compatible avec l'utilisation de CMake pour la compilation du projet.</li>
 </ul>
+<dl class="section warning"><dt>Warning</dt><dd>Le téléchargement devrait être fait dans le cmake, pas à la volée depuis le github de CPython. <br  />
+ Il semblerait que ces blocs puissent comprendre plusieurs lignes. <br  />
+ <div class="fragment"><div class="line"><span class="comment">// header</span></div>
+<div class="line"><span class="keywordtype">void</span> GLArea::on_realize();</div>
+</div><!-- fragment --></dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Cette fonction doit être appelée avant toute autre opération.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Implémenter la prise en charge de la récupération d'erreurs.</dd></dl>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000001">Bug:</a></b></dt><dd>Ce bloc signale la présence d'un bug connu.</dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd>Ce block indique la présence d'une entité en voie de déprécation (ou déjà supprimée).</dd></dl>
+<dl class="section invariant"><dt>Invariant</dt><dd>Ceci est un état maintenu par un objet ou un algorithme.</dd></dl>
+<blockquote class="doxtable">
+<p>Ceci est une citation si je ne me trompe pas. </p>
+</blockquote>
 <div class="fragment"><div class="line"><span class="comment">// header</span></div>
 <div class="line"><span class="keywordtype">void</span> on_realize() <span class="keyword">override</span>;</div>
 <div class="line"> </div>
@@ -131,9 +150,11 @@ Objectifs:</h2>
 <div class="line">    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);</div>
 <div class="line">}</div>
 </div><!-- fragment --><h3><a class="anchor" id="autotoc_md7"></a>
-2. Setup de rendu basique</h3>
-<h4><a class="anchor" id="autotoc_md8"></a>
-Étapes pour un rendu</h4>
+2. Contenu du CMakeLists.txt</h3>
+<h3><a class="anchor" id="autotoc_md8"></a>
+3. Configuration des variables d'environnement</h3>
+<h4><a class="anchor" id="autotoc_md9"></a>
+Création d'entités customs en C++</h4>
 <ul>
 <li>Créer les données à rendre (vertices, faces, uv, couleurs, ...)</li>
 <li>Créer les shaders, les compiler (vérifier le status de compilation), les assembler en programme et libérer les shaders de base.</li>
@@ -146,24 +167,24 @@ Objectifs:</h2>
 <div class="fragment"><div class="line">glBindVertexArray(0);</div>
 <div class="line">glBindBuffer(GL_ARRAY_BUFFER, 0);</div>
 <div class="line">glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md9"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md10"></a>
 Notes</h4>
 <ul>
 <li>Ne pas oublier le tag <code>GL_DEPTH_BUFFER_BIT</code> dans <code>glClear()</code> si <code>set_has_depth_buffer(true)</code> a été utilisé dans le constructeur. Sinon, rien ne sera rendu à l'écran sauf si la fenêtre est resized.</li>
 <li>Quand on fait un setup de rendu, le VAO doit être le premier unbound, sinon, il record le fait qu'on fasse debind les buffers.</li>
 <li>Dans la fonction <code>glVertexAttribPointer</code>, le premier index est celui qui doit être donné à <code>glEnableVertexAttribArray</code> ainsi que celui dans le shader dans <code>(layout = N)</code>.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md10"></a>
+<h3><a class="anchor" id="autotoc_md11"></a>
 3. Le rendu</h3>
 <ul>
 <li>Les buffers sont automatiquement swapped dans <code>on_render()</code>.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md11"></a>
+<h3><a class="anchor" id="autotoc_md12"></a>
 4. Destruction du contexte</h3>
 <ul>
 <li><code>on_unrealize</code> est émis quand le contexte OpenGL est encore valide, juste avant que l'objet de soit détruit. C'est le moment de détruire toutes les ressources OpenGL (qui ne seront plus accessible quand le contexte OpenGL ne sera plus valide).</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md12"></a>
+<h2><a class="anchor" id="autotoc_md13"></a>
 📌 Epoxy:</h2>
 <ul>
 <li>Équivalent de GLAD ou même GLEW, permet de faciliter l'utilisation de fonctions OpenGL.</li>

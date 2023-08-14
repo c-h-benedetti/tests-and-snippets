@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['primitive_8',['Primitive',['../structPrimitive.html',1,'']]],
-  ['programshader_9',['ProgramShader',['../classProgramShader.html',1,'']]]
+  ['newwindow_7',['NewWindow',['../classNewWindow.html',1,'']]]
 ];

@@ -31,6 +31,9 @@ var NAVTREE =
     [ "⊹ Notes Python Embeding", "embedpythonpage.html", null ],
     [ "⊹ Notes Gtkmm3", "gtmmpage.html", null ],
     [ "⊹ Notes λ-expressions", "lambdaexprpage.html", null ],
+    [ "Todo List", "todo.html", null ],
+    [ "Bug List", "bug.html", null ],
+    [ "Deprecated List", "deprecated.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
