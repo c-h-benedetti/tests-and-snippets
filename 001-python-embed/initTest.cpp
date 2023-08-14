@@ -43,12 +43,13 @@ void init_python(const char* appPath, const char* name=nullptr) {
     
     // = Définition de tous les chemins que l'interpréteur Python doit connaitre =
     Path software_path    = std::filesystem::absolute(std::filesystem::path(appPath).parent_path());
-    Path python_home_path = software_path / "cpython-3.10";
+    Path python_home_path = software_path / CPYTHON_BUILD_DIR;
     Path executable_path  = python_home_path / "python";
 
     std::string env_path    = makeFullPath({
-        python_home_path / "Lib", // built-in modules.
-        software_path    / "custom", // folder for user's modules.
+        python_home_path / "Lib",                        // built-in modules.
+        python_home_path / "Python",                     // built-in modules.
+        software_path    / "custom",                     // folder for user's modules.
         python_home_path / "build/lib.linux-x86_64-3.10" // binaries (.so) supporting built-in modules.
     });    
 
@@ -135,17 +136,13 @@ int main(int argc, char* argv[], char* env[]) {
     init_python(argv[0]);
 
     // Depuis un script dans un fichier:
-    FILE* fp = fopen("./dump.py", "r");
+    FILE* fp = fopen("../dump.py", "r");
+    if (fp == NULL) {
+        std::cerr << "File not found" << std::endl;
+        return 1;
+    }
     PyRun_SimpleFile(fp, "CSVtable.py");
     fclose(fp);
-
-    // Depuis un module custom
-    // PyRun_SimpleString(
-    //     "from thing import theFunction\n"
-    //     "theFunction()\n"
-    //     "import spam\n"
-    //     "print(\"Factorial of 5: \", spam.factorial(5))\n"
-    // );
     
     // Finaliser l'interpréteur Python
     Py_Finalize();
@@ -156,7 +153,9 @@ int main(int argc, char* argv[], char* env[]) {
 /*
 
 clear && g++ -Wall -std=c++20 main.cpp -L/media/clement/376DD68B604D847C/python-test/python/Lib -L/media/clement/376DD68B604D847C/python-test/python -lpython3.10 -I/media/clement/376DD68B604D847C/python-test/python/Include -lpthread -o MAIN && ./MAIN
+
 clear && g++ -Wall -std=c++20 main.cpp -L/media/clement/376DD68B604D847C/python-test/python/Lib -L/media/clement/376DD68B604D847C/python-test/python -ldl -lm -lpthread -lutil -lrt -lpython3.10 -I/media/clement/376DD68B604D847C/python-test/python/Include -o MAIN && ./MAIN
 
 clear && g++ -Wall -std=c++20 main.cpp -o MAIN -I/media/clement/376DD68B604D847C/python-test/python/Include -L/media/clement/376DD68B604D847C/python-test/python/Lib -L/media/clement/376DD68B604D847C/python-test/python -lpython3.10 -ldl -lm -lpthread -lutil -lrt && ./MAIN
+
 */

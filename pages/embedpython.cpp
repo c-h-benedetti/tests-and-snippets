@@ -3,37 +3,58 @@
 
 \page embedpythonpage ⊹ Notes Python Embeding
 
-- __Releases de CPython:__ https://github.com/python/cpython/tags
-- __Extension et embedding:__ https://docs.python.org/3.10/extending/index.html
-- __Empaqueter des binaires:__ https://packaging.python.org/en/latest/guides/packaging-binary-extensions/
+|             Topic             |                               Link                                         |
+|-------------------------------|----------------------------------------------------------------------------|
+| __Releases de CPython__       | https://github.com/python/cpython/tags                                     |
+| __Extension et embedding__    | https://docs.python.org/3.10/extending/index.html                          |
+| __Empaqueter des binaires__   | https://packaging.python.org/en/latest/guides/packaging-binary-extensions/ |
 
-## Notes:
+
+## 📖 Notes:
 
 - CPython est simplement le code source de Python non-compilé.
 - Blender, qui a un des meilleurs Python intégrés, n'utilise rien d'autres que l'API de CPython (pas Cython, cffi, SWIG ou Numba)
 - Le header `<Python.h>` doit être inclus avant tout autre module.
 
-## Objectifs:
+## 🚀 Objectifs:
 
-- 🔘 Arriver à compiler Python et exécuter un script depuis le binaire C++.
-- ⚪️ Faire un CMakeLists.txt pour télécharger et compiler CPython.
-- ⚪️ Pouvoir télécharger et compiler CPython depuis le CMake.
-- ⚪️ Créer des objets manipulables en Python depuis C++.*
-- ⚪️ Gérer le fait que les paths ne sont pas obligatoirement que du ascii dans `init_python`.
-- ⚪️ Est-il possible d'avoir plusieurs Pythons en même temps vu que les fonctions ont l'air globales ? Cela dépend-il seulement du dernier contexte créé ?
-- ⚪️ Créer un type de données qui peut devenir un tableau `numpy`.
+- [X] Arriver à compiler Python et exécuter un script depuis le binaire C++.
+- [X] Faire un CMakeLists.txt pour télécharger et compiler CPython.
+- [X] Arranger le CMakeLists.txt pour qu'il injecte le build path comme variable de préprocesseur dans le C++.
+- [ ] Encapsuler la création et destruction de contexte Python dans un objet plutôt que dans des fonctions.
+- [ ] Créer en C++ des objets manipulables depuis Python.
+- [ ] Gérer le fait que les paths ne sont pas obligatoirement que du AscII dans `init_python`.
+- [ ] Est-il possible d'avoir plusieurs Pythons en même temps vu que les fonctions ont l'air globales ? Cela dépend-il seulement du dernier contexte créé ?
+- [ ] Créer un type de données qui peut devenir un tableau `numpy`.
+- [ ] Est-ce que certaines données doivent être stockées exclusivement côté C++ ?
 
 ---
 
-## 📌 Compilation de CPython:
+## 🛠️ Compilation de CPython dans du C++:
 
-Le code minimal pour un setup OpenGL qui dessine un rectangle est dans: `002-test-gtkmm3/minimal_gtk_epoxy.cpp`.
+### 1. Téléchargement de CPython
 
-### 1. Setup d'OpenGL
+- La première étape est de télécharger une version stable du code source depuis une release (tag) du dépôt de CPython.
+- Ce code est compatible avec l'utilisation de CMake pour la compilation du projet.
 
-- Le signal `on_realize` est émis quand le widget a bien été assigné et qu'il est prêt à être déssiné. C'est dans cette méthode qu'il faut déclarer et remplir les VBOs, EBOs, ... 
-- Cette méthode est virtuelle dans `Gtk::GLArea` et doit être `override` dans notre classe. De plus, la première chose qu'on doit y faire est de faire appel à la méthode du parent.
-- Le contexte OpenGL est ici valide.
+\warning Le téléchargement devrait être fait dans le cmake, pas à la volée depuis le github de CPython.   
+Il semblerait que ces blocs puissent comprendre plusieurs lignes.   
+\code{.cpp}
+// header
+void GLArea::on_realize();
+\endcode
+
+\note Cette fonction doit être appelée avant toute autre opération.
+
+\todo Implémenter la prise en charge de la récupération d'erreurs.
+
+\bug Ce bloc signale la présence d'un bug connu.
+
+\deprecated Ce block indique la présence d'une entité en voie de déprécation (ou déjà supprimée).
+
+\invariant Ceci est un état maintenu par un objet ou un algorithme.
+
+> Ceci est une citation si je ne me trompe pas.
 
 \code{.cpp}
 // header
@@ -48,9 +69,11 @@ void GLArea::on_realize() {
 }
 \endcode
 
-### 2. Setup de rendu basique
+### 2. Contenu du CMakeLists.txt
 
-#### Étapes pour un rendu
+### 3. Configuration des variables d'environnement
+
+#### Création d'entités customs en C++
 
 - Créer les données à rendre (vertices, faces, uv, couleurs, ...)
 - Créer les shaders, les compiler (vérifier le status de compilation), les assembler en programme et libérer les shaders de base.

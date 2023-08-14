@@ -15,13 +15,13 @@
 
 ## Objectifs:
 
-- 🔘 Faire un CMakeLists.txt pour utiliser gtkmm.
-- 🔘 Pouvoir ouvrir une fenêtre principale et des fenêtres secondaires.
-- 🔘 Générer une fenêtre qui contient un contexte OpenGL et Epoxy.
-- 🔘 Faire un setup pour utiliser OpenGL.
-- ⚪️ Pour zoomer et translater dans la fenêtre affichant une image.
-- ⚪️ Être capable d'afficher des boutons dans la barre de titre.
-- ⚪️ Être capable d'ouvrir des menus.
+- [X] Faire un CMakeLists.txt pour utiliser gtkmm.
+- [X] Pouvoir ouvrir une fenêtre principale et des fenêtres secondaires.
+- [X] Générer une fenêtre qui contient un contexte OpenGL et Epoxy.
+- [X] Faire un setup pour utiliser OpenGL.
+- [ ] Pour zoomer et translater dans la fenêtre affichant une image.
+- [ ] Être capable d'afficher des boutons dans la barre de titre.
+- [ ] Être capable d'ouvrir des menus.
 
 ---
 
