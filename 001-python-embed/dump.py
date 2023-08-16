@@ -84,4 +84,10 @@ for i in range(5):
     itr += 1
 
 table.display()
-# table.exportTo("/home/clement/Desktop", "table.csv")
+
+print(spam.replace_range("abcdefghijklmnopqrstuvwxyz"))
+print(spam.replace_range("abcdefghijklmnopqrstuvwxyz", '_'))
+print(spam.replace_range("abcdefghijklmnopqrstuvwxyz", '_', 5))
+print(spam.replace_range("abcdefghijklmnopqrstuvwxyz", '_', 5, 12))
+
+spam.super_print("some stuff and yet", fg=1, bg=2)

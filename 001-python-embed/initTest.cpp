@@ -1,6 +1,6 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
-#include "spammodule.h"
+#include "spammodule.hpp"
 #include <string>
 #include <filesystem>
 #include <iostream>

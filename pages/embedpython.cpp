@@ -27,6 +27,7 @@
 - [ ] Est-il possible d'avoir plusieurs Pythons en même temps vu que les fonctions ont l'air globales ? Cela dépend-il seulement du dernier contexte créé ?
 - [ ] Créer un type de données qui peut devenir un tableau `numpy`.
 - [ ] Est-ce que certaines données doivent être stockées exclusivement côté C++ ?
+- [ ] Fix le CMake pour qu'il n'utilise pas 'configure' à chaque call à `make`.
 
 ---
 

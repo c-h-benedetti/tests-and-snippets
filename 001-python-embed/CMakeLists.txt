@@ -30,8 +30,8 @@ ExternalProject_Add(cpython
 
 # Liste des fichiers sources
 set(SOURCES
-    spammodule.h
-    spammodule.c 
+    spammodule.hpp
+    spammodule.cpp
     initTest.cpp
 )
 
