@@ -3,6 +3,37 @@
 #include <cstring>
 #include <iostream>
 
+/**
+ * @brief Concatenates the input strings separated by '+' characters. The number of parameters is arbitrary.
+ * @return Produces a string which is the concatenated input strings, separated by '+' and encapsulated by '+'.
+ */
+static PyObject* spam_total_length(PyObject* self, PyObject* args) {
+    if (!PyTuple_Check(args)) {
+        return NULL;
+    }
+
+    std::string total = "+";
+    PyObject* str_obj = nullptr;
+
+    for (Py_ssize_t i = 0; i < PyTuple_Size(args); i++) {
+        str_obj = PyTuple_GetItem(args, i);
+        if (!PyUnicode_Check(str_obj)) {
+            PyErr_SetString(PyExc_TypeError, "Attendu des chaînes");
+            return NULL;
+        }
+        const char* str = PyUnicode_AsUTF8(str_obj);
+        total += str;
+        total += '+';
+    }
+
+    return PyUnicode_FromString(total.c_str());
+}
+
+/**
+ * @namespace ANSI
+ * @brief Contains all the commands used to colorize the text color in the terminal.
+ *        Commands such bold, underline, ... are not included.
+ */
 namespace ANSI {
     static const char* reset = "\033[0m";
 
@@ -50,9 +81,9 @@ static PyObject* spam_super_print(PyObject* self, PyObject* args, PyObject *keyw
     
     int fg=-1, bg=-1;
     const char* input = nullptr;
-    static char* kwlist[] = {"input", "fg", "bg", NULL};
+    static const char* kwlist[] = {"input", "fg", "bg", NULL};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "s|ii", kwlist, &input, &fg, &bg)) {
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "s|ii", (char**)kwlist, &input, &fg, &bg)) {
         return NULL;
     }
 
@@ -149,7 +180,7 @@ static PyObject* spam_factorial(PyObject* self, PyObject* args) {
  * This array is terminated by an element containing null elements.
  * 1. Name that the function will have in Python
  * 2. Which C function is it bound to.
- * 3. ?
+ * 3. Does this function only take parameters or also keywords arguments.
  * 4. Description of the function.
  */
 static PyMethodDef SpamMethods[] = {
@@ -157,6 +188,7 @@ static PyMethodDef SpamMethods[] = {
     {"factorial", spam_factorial, METH_VARARGS, "Calculates the factorial of a number."},
     {"replace_range", spam_replace_chars, METH_VARARGS, "Replaces characters in a certain range."},
     {"super_print", (PyCFunction)(void(*)(void))spam_super_print, METH_VARARGS | METH_KEYWORDS, "Prints some text in std::out with a given color."},
+    {"total_length", spam_total_length, METH_VARARGS, "Sums the length of every string passed to the function."},
     {NULL, NULL, 0, NULL}
 };
 
@@ -183,16 +215,19 @@ PyMODINIT_FUNC PyInit_spam(void) {
 
 /*
 
-- À quoi sert METH_VARARGS dans l'instance de PyMethodDef ?
-- Que sont les différents arguments dans l'instance de PyModuleDef ?
+- Règle 1:  Quand on emprunte une référence vers un objet, soit on l'utilise tout de suite, soit on incrémente son compteur.
+            Si une fonction est exécutable côté user entre le moment où on prend notre objet et le moment où on l'utilise, il peut être invalidé.
+            Par exemple, à moins qu'on utilise une liste en lecture seule, il faut incrémenter l'élément lu avant d'écrire quoi que ce soit où que ce soit.
+
+- Règle 2:  Éviter de mettre la logique des fonctions dans le corps de la fonction Python (celle qui prend self et args).
+
 - Rappel sur le fonctionement de l'ownership et le compteur d'utilisations ?
 
 -------------------------------------
 
-- [ ] Fonction avec des paramètres optionnels
+- [X] Fonction avec des paramètres optionnels
 - [ ] Fonction qui modifie in-place un objet Python
-- [ ] Fonction qui appelle une autre fonction accessible depuis Python.
-- [ ] Fonction qui utilise des paramètres en keywords.
+- [X] Fonction qui utilise des paramètres en keywords.
 
 */
 

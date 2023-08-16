@@ -17,7 +17,6 @@ for item in content:
         continue
     
     full_path = os.path.join(path, item)
-    # print(f"Processing {full_path}")
 
     with open(full_path, 'r', encoding='utf-8') as file:
         document = file.read()
@@ -29,7 +28,7 @@ for item in content:
             if match:
                 ok, text = match.groups()
                 idx = str(index).zfill(8)
-                file.write(f'<li><input id=item_{idx} disabled="disabled" type="checkbox" {check(ok)} /> <label for=item_{idx}>{text}</label></li>\n')
+                file.write(f'<li style="list-style-type: none;"><input id=item_{idx} type="checkbox" {check(ok)} /> <label for=item_{idx}>{text}</label></li>\n')
                 index += 1
             else:
                 file.write(f"{line}\n")

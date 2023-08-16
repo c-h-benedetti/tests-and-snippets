@@ -91,3 +91,5 @@ print(spam.replace_range("abcdefghijklmnopqrstuvwxyz", '_', 5))
 print(spam.replace_range("abcdefghijklmnopqrstuvwxyz", '_', 5, 12))
 
 spam.super_print("some stuff and yet", fg=1, bg=2)
+
+print(spam.total_length("a", "bc", "def", "ghij"))
