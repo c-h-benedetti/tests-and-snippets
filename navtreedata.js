@@ -34,6 +34,9 @@ var NAVTREE =
     [ "Todo List", "todo.html", null ],
     [ "Bug List", "bug.html", null ],
     [ "Deprecated List", "deprecated.html", null ],
+    [ "Namespaces", "namespaces.html", [
+      [ "Namespace List", "namespaces.html", "namespaces_dup" ]
+    ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
@@ -47,7 +50,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"annotated.html"
+""
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

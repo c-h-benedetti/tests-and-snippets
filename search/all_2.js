@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['deprecated_20list_3',['Deprecated List',['../deprecated.html',1,'']]]
+  ['coursewindow_2',['CourseWindow',['../classCourseWindow.html',1,'']]],
+  ['csvtable_3',['CSVtable',['../classdump_1_1CSVtable.html',1,'dump']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['primitive_10',['Primitive',['../structPrimitive.html',1,'']]],
-  ['programshader_11',['ProgramShader',['../classProgramShader.html',1,'']]]
+  ['oglwindow_9',['OGLWindow',['../classOGLWindow.html',1,'']]],
+  ['openglcourse_10',['OpenGlCourse',['../classOpenGlCourse.html',1,'']]]
 ];
