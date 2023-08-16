@@ -128,7 +128,7 @@ var NAVTREEINDEX0 =
 "primitives_8hpp_source.html":[8,0,1,3],
 "several-windows_8hpp_source.html":[8,0,1,4],
 "shaders_8hpp_source.html":[8,0,1,5],
-"spammodule_8h_source.html":[8,0,0,0],
+"spammodule_8hpp_source.html":[8,0,0,0],
 "stb__image_8h_source.html":[8,0,1,6],
 "structPrimitive.html":[7,0,19],
 "structPrimitive.html#a2d3fe0b6b1e7d98f1c457bf7dc0a9403":[7,0,19,0],
