@@ -157,7 +157,9 @@ int main(int argc, char* argv[], char* env[]) {
     fclose(fp);
     
     // Finaliser l'interpréteur Python
-    Py_Finalize();
+    if (Py_FinalizeEx() < 0) {
+        std::cout << "Something went wrong in the Python execution." << std::endl;
+    }
     return 0;
 }
 
