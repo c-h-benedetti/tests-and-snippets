@@ -1,5 +1,7 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
+#include "Custom.h"
+#include "Point2D.h"
 #include "spammodule.hpp"
 #include <string>
 #include <filesystem>
@@ -128,7 +130,17 @@ exception:
 int main(int argc, char* argv[], char* env[]) {
 
     if (PyImport_AppendInittab("spam", PyInit_spam) == -1) {
-        fprintf(stderr, "Error: could not extend in-built modules table\n");
+        fprintf(stderr, "Error: could not extend in-built modules table with `spam`.\n");
+        return 1;
+    }
+
+    if (PyImport_AppendInittab("custom", PyInit_custom) == -1) {
+        fprintf(stderr, "Error: could not extend in-built modules table with `custom`.\n");
+        return 1;
+    }
+
+    if (PyImport_AppendInittab("geo2d", PyInit_geo2d) == -1) {
+        fprintf(stderr, "Error: could not extend in-built modules table with `geo2d`.\n");
         return 1;
     }
 

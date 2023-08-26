@@ -1,3 +1,4 @@
+#define SPAM_MODULE
 #include "spammodule.hpp"
 #include <string>
 #include <cstring>
@@ -148,9 +149,9 @@ static PyObject* spam_system(PyObject* self, PyObject* args) {
  * @warning There is no safety check in case the input is lower than 0.
  * @return The factorial of the given input.
  */
-long int factorial(long int n) {
+static long int PySpam_factorial(long int n) {
     if (n == 0) { return 1; }
-    return n * factorial(n-1);
+    return n * PySpam_factorial(n-1);
 }
 
 
@@ -170,7 +171,7 @@ static PyObject* spam_factorial(PyObject* self, PyObject* args) {
         return NULL;
     }
 
-    result = factorial(base);
+    result = PySpam_factorial(base);
     return PyLong_FromLong(result);
 }
 
@@ -187,7 +188,7 @@ static PyMethodDef SpamMethods[] = {
     {"system", spam_system, METH_VARARGS, "Runs a shell command!"},
     {"factorial", spam_factorial, METH_VARARGS, "Calculates the factorial of a number."},
     {"replace_range", spam_replace_chars, METH_VARARGS, "Replaces characters in a certain range."},
-    {"super_print", (PyCFunction)(void(*)(void))spam_super_print, METH_VARARGS | METH_KEYWORDS, "Prints some text in std::out with a given color."},
+    {"super_print", (PyCFunction) spam_super_print, METH_VARARGS | METH_KEYWORDS, "Prints some text in std::out with a given color."},
     {"total_length", spam_total_length, METH_VARARGS, "Sums the length of every string passed to the function."},
     {NULL, NULL, 0, NULL}
 };
@@ -210,7 +211,28 @@ static struct PyModuleDef spammodule = {
  *          C'est le seul élément non-statique des composants du module.
  */
 PyMODINIT_FUNC PyInit_spam(void) {
-    return PyModule_Create(&spammodule);
+    PyObject* m = nullptr;
+    static void* PySpam_API[PySpam_API_pointers];
+    PyObject* c_api_object = nullptr;
+
+    m = PyModule_Create(&spammodule);
+    if (m == nullptr) {
+        return nullptr;
+    }
+
+    /* Initialize the C API pointer array */
+    PySpam_API[PySpam_factorial_NUM] = (void*)PySpam_factorial;
+
+    /* Create a Capsule containing the API pointer array's address */
+    c_api_object = PyCapsule_New((void *)PySpam_API, "spam._C_API", NULL);
+
+    if (PyModule_AddObject(m, "_C_API", c_api_object) < 0) {
+        Py_XDECREF(c_api_object);
+        Py_DECREF(m);
+        return NULL;
+    }
+
+    return m;
 }
 
 /*

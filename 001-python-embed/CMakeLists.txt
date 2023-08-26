@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 
-# Ajouter CPython en tant que sous-projet
+# Add CPython as a sub-project.
 set(Python_ADDITIONAL_VERSIONS 3.10.12)
 
 include(ExternalProject)
@@ -27,15 +27,18 @@ ExternalProject_Add(cpython
     STEP_TARGETS build
 )
 
-
-# Liste des fichiers sources
+# List sources
 set(SOURCES
+    Custom.h
+    Custom.c
+    Point2D.h
+    Point2D.c
     spammodule.hpp
     spammodule.cpp
     initTest.cpp
 )
 
-# Créer l'exécutable
+# Create the executable
 add_executable(PythonEmbed ${SOURCES})
 
 target_compile_definitions(PythonEmbed PRIVATE CPYTHON_BUILD_DIR=\"${CPYTHON_SOURCES_DIR}\")
@@ -46,7 +49,7 @@ target_include_directories(PythonEmbed
     PUBLIC ${BINARY_DIR}
 )
 
-# # Lier les bibliothèques
+# Link libraries
 add_dependencies(PythonEmbed cpython)
 
 target_link_libraries(PythonEmbed 

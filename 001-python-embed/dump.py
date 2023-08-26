@@ -1,8 +1,9 @@
 import os
-import sys
 import csv
 import spam
 from thing import theFunction
+import custom
+from geo2d import Point2D
 
 spam.system("ls -a")
 k = 5
@@ -93,3 +94,36 @@ print(spam.replace_range("abcdefghijklmnopqrstuvwxyz", '_', 5, 12))
 spam.super_print("some stuff and yet", fg=1, bg=2)
 
 print(spam.total_length("a", "bc", "def", "ghij"))
+
+print('------------------------------------')
+
+c1 = custom.Custom()
+c2 = custom.Custom("some")
+c3 = custom.Custom("some", "content", -42)
+
+c1.number = 10
+c1.first_name = 48
+
+print(f"Name: {c1.name()}, -> {c1.number}")
+print(f"Name: {c2.name()}, -> {c2.number}")
+print(f"Name: {c3.name()}, -> {c3.number}")
+
+print('------------------------------------')
+
+p1 = Point2D()
+p2 = Point2D((2.1, 5.2))
+p3 = Point2D((3.1, 5.4), '#ab77feff', None)
+p4 = Point2D((3.1, 5.4), '#ab77feff', "1.0.5")
+
+print(p1)
+print(p2)
+print(p3)
+print(p4)
+
+k = 42
+try:
+    p1.partition = k
+except:
+    print(f"Failed to set partition to {k}.")
+else:
+    print(f"Succesfully set partition to {k}.")
