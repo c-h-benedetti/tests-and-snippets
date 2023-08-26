@@ -1,5 +1,6 @@
 var hierarchy =
 [
+    [ "CustomObject", "structCustomObject.html", null ],
     [ "Gtk::GLArea", null, [
       [ "GLArea", "classGLArea.html", null ],
       [ "OpenGlCourse", "classOpenGlCourse.html", null ]
@@ -7,6 +8,7 @@ var hierarchy =
     [ "object", null, [
       [ "dump.CSVtable", "classdump_1_1CSVtable.html", null ]
     ] ],
+    [ "Point2D_data", "structPoint2D__data.html", null ],
     [ "Primitive", "structPrimitive.html", null ],
     [ "ProgramShader", "classProgramShader.html", null ],
     [ "ShaderLoader", "classShaderLoader.html", [

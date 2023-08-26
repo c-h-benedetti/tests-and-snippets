@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['newwindow_27',['NewWindow',['../classNewWindow.html',1,'']]]
+  ['newwindow_30',['NewWindow',['../classNewWindow.html',1,'']]]
 ];
