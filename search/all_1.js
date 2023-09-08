@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['bug_20list_1',['Bug List',['../bug.html',1,'']]]
+  ['coursewindow_1',['CourseWindow',['../classCourseWindow.html',1,'']]],
+  ['csvtable_2',['CSVtable',['../classdump_1_1CSVtable.html',1,'dump']]],
+  ['customobject_3',['CustomObject',['../structCustomObject.html',1,'']]]
 ];

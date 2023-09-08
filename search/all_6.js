@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['mainwindow_8',['MainWindow',['../classMainWindow.html',1,'']]]
+  ['oglwindow_8',['OGLWindow',['../classOGLWindow.html',1,'']]],
+  ['openglcourse_9',['OpenGlCourse',['../classOpenGlCourse.html',1,'']]]
 ];

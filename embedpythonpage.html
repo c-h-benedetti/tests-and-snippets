@@ -95,7 +95,15 @@ $(document).ready(function(){initNavTree('embedpythonpage.html',''); initResizab
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>Extension et embedding</b>   </td><td class="markdownTableBodyNone"><a href="https://docs.python.org/3.10/extending/index.html">https://docs.python.org/3.10/extending/index.html</a>    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>Empaqueter des binaires</b>   </td><td class="markdownTableBodyNone"><a href="https://packaging.python.org/en/latest/guides/packaging-binary-extensions/">https://packaging.python.org/en/latest/guides/packaging-binary-extensions/</a>   </td></tr>
+<td class="markdownTableBodyNone"><b>Empaqueter des binaires</b>   </td><td class="markdownTableBodyNone"><a href="https://packaging.python.org/en/latest/guides/packaging-binary-extensions/">https://packaging.python.org/en/latest/guides/packaging-binary-extensions/</a>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>Explication linking modules CPython</b>   </td><td class="markdownTableBodyNone"><a href="https://thomasnyberg.com/what_are_extension_modules.html">https://thomasnyberg.com/what_are_extension_modules.html</a>    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>Tips CPython &amp; C++</b>   </td><td class="markdownTableBodyNone"><a href="https://thomasnyberg.com/cpp_extension_modules.html">https://thomasnyberg.com/cpp_extension_modules.html</a>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>Utiliser Numpy &amp; C++</b>   </td><td class="markdownTableBodyNone"><a href="https://pythonextensionpatterns.readthedocs.io/en/latest/cpp.html">https://pythonextensionpatterns.readthedocs.io/en/latest/cpp.html</a>    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>C++ &amp; CPython</b>   </td><td class="markdownTableBodyNone"><a href="https://geghamjivanyan.medium.com/c-c-extension-for-python-f68444dab472">https://geghamjivanyan.medium.com/c-c-extension-for-python-f68444dab472</a>   </td></tr>
 </table>
 <h2><a class="anchor" id="autotoc_md2"></a>
 📖 Notes:</h2>
@@ -127,84 +135,24 @@ $(document).ready(function(){initNavTree('embedpythonpage.html',''); initResizab
 <li>La première étape est de télécharger une version stable du code source depuis une release (tag) du dépôt de CPython.</li>
 <li>Ce code est compatible avec l'utilisation de CMake pour la compilation du projet.</li>
 </ul>
-<dl class="section warning"><dt>Warning</dt><dd>Le téléchargement devrait être fait dans le cmake, pas à la volée depuis le github de CPython. <br  />
- Il semblerait que ces blocs puissent comprendre plusieurs lignes. <br  />
- <div class="fragment"><div class="line"><span class="comment">// header</span></div>
-<div class="line"><span class="keywordtype">void</span> GLArea::on_realize();</div>
-</div><!-- fragment --></dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Cette fonction doit être appelée avant toute autre opération.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>Implémenter la prise en charge de la récupération d'erreurs.</dd></dl>
-<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000001">Bug:</a></b></dt><dd>Ce bloc signale la présence d'un bug connu.</dd></dl>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd>Ce block indique la présence d'une entité en voie de déprécation (ou déjà supprimée).</dd></dl>
-<dl class="section invariant"><dt>Invariant</dt><dd>Ceci est un état maintenu par un objet ou un algorithme.</dd></dl>
-<blockquote class="doxtable">
-<p>Ceci est une citation si je ne me trompe pas. </p>
-</blockquote>
-<div class="fragment"><div class="line"><span class="comment">// header</span></div>
-<div class="line"><span class="keywordtype">void</span> on_realize() <span class="keyword">override</span>;</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// implémentation</span></div>
-<div class="line"><span class="keywordtype">void</span> GLArea::on_realize() {</div>
-<div class="line">    Gtk::GLArea::on_realize(); <span class="comment">// À ne pas oublier !!!</span></div>
-<div class="line">    make_current();</div>
-<div class="line">    GLenum error = glGetError();</div>
-<div class="line">    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);</div>
-<div class="line">}</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md7"></a>
+<dl class="section warning"><dt>Warning</dt><dd>Le téléchargement devrait être fait dans le CMakeLists.txt, pas à la volée depuis le github de CPython.</dd></dl>
+<ul>
+<li>Un CMakeLists.txt (presque) générique se trouve dans le dossier consacré à CPython de ce repository.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md7"></a>
 2. Contenu du CMakeLists.txt</h3>
 <h3><a class="anchor" id="autotoc_md8"></a>
 3. Configuration des variables d'environnement</h3>
-<h4><a class="anchor" id="autotoc_md9"></a>
-Création d'entités customs en C++</h4>
-<ul>
-<li>Créer les données à rendre (vertices, faces, uv, couleurs, ...)</li>
-<li>Créer les shaders, les compiler (vérifier le status de compilation), les assembler en programme et libérer les shaders de base.</li>
-<li>Générer un VAO et le bind avant de continuer.</li>
-<li>Générer un VBO, le bind, et y transférer les données de vertices.</li>
-<li>Générer un EBO, le bind, et y transférer les données de faces.</li>
-<li>Renseigner les informations d'interprétation du contenu du VBO (offset, stride, ...) et activer les attributs qui y sont contenus.</li>
-<li>Unbind le VAO <b>puis</b> tous les autres buffers. Procédure (et ordre à suivre) pour debind les buffers:</li>
+<h3><a class="anchor" id="autotoc_md9"></a>
+4. Création d'entités customs en C/C++</h3>
+<dl class="section warning"><dt>Warning</dt><dd>Le nom de la fonction <code>PyInit_[name]</code> est important. En effet, lors du chargement des librairies (qui se fait de façon dynamique), la procédure suivante est utilisée:<ul>
+<li><b>Step 1:</b> Find and open a shared library file called <code>[name].so</code>.</li>
+<li><b>Step 2:</b> Find and load in a function called <code>PyInit_[name]</code>.</li>
+<li><b>Step 3:</b> Execute that function.</li>
+<li><b>Step 4:</b> Return control back to interpreter. </li>
 </ul>
-<div class="fragment"><div class="line">glBindVertexArray(0);</div>
-<div class="line">glBindBuffer(GL_ARRAY_BUFFER, 0);</div>
-<div class="line">glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md10"></a>
-Notes</h4>
-<ul>
-<li>Ne pas oublier le tag <code>GL_DEPTH_BUFFER_BIT</code> dans <code>glClear()</code> si <code>set_has_depth_buffer(true)</code> a été utilisé dans le constructeur. Sinon, rien ne sera rendu à l'écran sauf si la fenêtre est resized.</li>
-<li>Quand on fait un setup de rendu, le VAO doit être le premier unbound, sinon, il record le fait qu'on fasse debind les buffers.</li>
-<li>Dans la fonction <code>glVertexAttribPointer</code>, le premier index est celui qui doit être donné à <code>glEnableVertexAttribArray</code> ainsi que celui dans le shader dans <code>(layout = N)</code>.</li>
-</ul>
-<h3><a class="anchor" id="autotoc_md11"></a>
-3. Le rendu</h3>
-<ul>
-<li>Les buffers sont automatiquement swapped dans <code>on_render()</code>.</li>
-</ul>
-<h3><a class="anchor" id="autotoc_md12"></a>
-4. Destruction du contexte</h3>
-<ul>
-<li><code>on_unrealize</code> est émis quand le contexte OpenGL est encore valide, juste avant que l'objet de soit détruit. C'est le moment de détruire toutes les ressources OpenGL (qui ne seront plus accessible quand le contexte OpenGL ne sera plus valide).</li>
-</ul>
-<h2><a class="anchor" id="autotoc_md13"></a>
-📌 Epoxy:</h2>
-<ul>
-<li>Équivalent de GLAD ou même GLEW, permet de faciliter l'utilisation de fonctions OpenGL.</li>
-<li>Le header doit absolument être le premier de son unité de compilation. La solution trouvée a été de mettre Epoxy dans le .cpp uniquement. Configuration utilisée:</li>
-</ul>
-<div class="fragment"><div class="line"><span class="comment">// main.cpp</span></div>
-<div class="line"><span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;gtkmm.h&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &quot;header.hpp&quot;</span></div>
-<div class="line"><span class="preprocessor">#include &quot;other-header.hpp&quot;</span></div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// header</span></div>
-<div class="line"><span class="preprocessor">#include &lt;gtkmm/glarea.h&gt;</span></div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// implementation</span></div>
-<div class="line"><span class="preprocessor">#include &quot;header.hpp&quot;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;epoxy/gl.h&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;epoxy/glx.h&gt;</span></div>
-</div><!-- fragment --> </div></div><!-- contents -->
+</dd></dl>
+</div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
 <!-- start footer part -->

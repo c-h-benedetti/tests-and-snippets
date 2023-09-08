@@ -31,9 +31,6 @@ var NAVTREE =
     [ "⊹ Notes Python Embeding", "embedpythonpage.html", null ],
     [ "⊹ Notes Gtkmm3", "gtmmpage.html", null ],
     [ "⊹ Notes λ-expressions", "lambdaexprpage.html", null ],
-    [ "Todo List", "todo.html", null ],
-    [ "Bug List", "bug.html", null ],
-    [ "Deprecated List", "deprecated.html", null ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ]
     ] ],
@@ -50,7 +47,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-""
+"Custom_8h_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

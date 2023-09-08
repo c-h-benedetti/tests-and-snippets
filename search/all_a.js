@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['shaderloader_15',['ShaderLoader',['../classShaderLoader.html',1,'']]],
-  ['someclass_16',['SomeClass',['../classSomeClass.html',1,'']]],
-  ['stbi_5fio_5fcallbacks_17',['stbi_io_callbacks',['../structstbi__io__callbacks.html',1,'']]]
+  ['vertexshaderloader_17',['VertexShaderLoader',['../classVertexShaderLoader.html',1,'']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['glarea_7',['GLArea',['../classGLArea.html',1,'']]]
+  ['newwindow_7',['NewWindow',['../classNewWindow.html',1,'']]]
 ];
