@@ -162,14 +162,3 @@ int main(int argc, char* argv[], char* env[]) {
     }
     return 0;
 }
-
-
-/*
-
-clear && g++ -Wall -std=c++20 main.cpp -L/media/clement/376DD68B604D847C/python-test/python/Lib -L/media/clement/376DD68B604D847C/python-test/python -lpython3.10 -I/media/clement/376DD68B604D847C/python-test/python/Include -lpthread -o MAIN && ./MAIN
-
-clear && g++ -Wall -std=c++20 main.cpp -L/media/clement/376DD68B604D847C/python-test/python/Lib -L/media/clement/376DD68B604D847C/python-test/python -ldl -lm -lpthread -lutil -lrt -lpython3.10 -I/media/clement/376DD68B604D847C/python-test/python/Include -o MAIN && ./MAIN
-
-clear && g++ -Wall -std=c++20 main.cpp -o MAIN -I/media/clement/376DD68B604D847C/python-test/python/Include -L/media/clement/376DD68B604D847C/python-test/python/Lib -L/media/clement/376DD68B604D847C/python-test/python -lpython3.10 -ldl -lm -lpthread -lutil -lrt && ./MAIN
-
-*/
