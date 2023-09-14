@@ -64,14 +64,24 @@
  * - Il faut des tutos vidéos qui assistent les tutos écrits pour toutes les étapes.
  * - Il faut des tutos:
  *    - Pour l'installation de l'application, ouvrir des images, naviguer, ...
- *    - Installer et développer des plugins.
+ *    - Segmentation basique.
+ *    - Installer et développer des plugins en Python.
  *    - Faire un node graph pour automatiser.
- * 
+ *    - Comment utiliser VG en remote.
  */
 
 /**
- * Objectif 1: Pouvoir créer des images en 8, 16 et 32 bits en voxels et pouvoir leur appliquer un threshold.
- * 
+ * L'application pourra être rentable en faisant payer la conversion des plugins ImageJ vers des plugins VG.
+ * Les plugins seront téléchargeables depuis une page où les gens pourront soit faire un don, soit regarder une publicité.
+ * L'application doit être belle, elle doit contraster avec toutes les autres applis de bio qui sont horribles.
+ */
+
+/**
+ * Aspect 1 : Avoir un soft qui peut s'utiliser en mode "code only" avant d'avoir une GUI. Par exemple, les fonctions qui utilisent des sélections ne doivent pas dépendre des ROIs graphiques.
+ *     Objectif 1: Pouvoir créer des images en 8, 16 et 32 bits en voxels et pouvoir leur appliquer un threshold.
+ *     Objectif 2: Pouvoir charger depuis le disque et écrire sur le disque des images PGM.
+ *     Objectif 3: Faire fonctionner le thread pool avec les buckets. Les opérations réalisables en bucket doivent aussi pouvoir être réalisées en single-thread.
+ *     Objectif 4: Implémenter une fonction qui utilise les buckets et dont le résultat doit être assemblé (ex: connected components labeling)
  */
 
 struct Data;
