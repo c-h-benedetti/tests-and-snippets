@@ -1,5 +1,7 @@
 var NAVTREEINDEX0 =
 {
+"":[4,0,11],
+"":[4,0,12],
 "Custom_8h_source.html":[6,0,0,0],
 "Point2D_8h_source.html":[6,0,0,1],
 "annotated.html":[5,0],
@@ -183,7 +185,5 @@ var NAVTREEINDEX0 =
 "structstbi__io__callbacks.html":[5,0,14],
 "structstbi__io__callbacks.html#a257aac5480a90a6c4b8fbe86c1b01068":[5,0,14,2],
 "structstbi__io__callbacks.html#a319639db2f76e715eed7a7a974136832":[5,0,14,0],
-"structstbi__io__callbacks.html#a623e46b3a2a019611601409926283a88":[5,0,14,1],
-"":[4,0,12],
-"":[4,0,11]
+"structstbi__io__callbacks.html#a623e46b3a2a019611601409926283a88":[5,0,14,1]
 };
