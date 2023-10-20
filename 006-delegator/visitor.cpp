@@ -265,6 +265,14 @@ struct Task;
 
 struct Data {
 
+    enum class data_type : int {
+        UNDEFINED=0,
+        IMG_U8=1,
+        IMG_U16=2
+    };
+
+    data_type dtype_idx=data_type::UNDEFINED;
+
     std::vector<Bucket> buckets = {
         Bucket({0, 256}, {0, 256}, {0, 5}),
         Bucket({256, 512}, {256, 512}, {0, 5}),
@@ -278,6 +286,9 @@ struct Data {
     virtual Data* alike() = 0;
 
     virtual ~Data() = default;
+
+    Data() = default;
+    Data(data_type d): dtype_idx(d) {}
 };
 
 struct Task {
@@ -306,7 +317,7 @@ public:
         throw std::runtime_error(m.c_str());
     }
 
-    virtual bool run() = 0;
+    virtual Data::data_type run() = 0;
 };
 
 template <typename T>
@@ -324,8 +335,16 @@ struct Image : public Data {
 
     Image() = default;
 
-    Image(int h, int w, int s, int c, int f) : height(h), width(w), nSlices(s), nChannels(c), nFrames(f) {
+    Image(int h, int w, int s, int c, int f, Data::data_type p) : Data(p), height(h), width(w), nSlices(s), nChannels(c), nFrames(f) {
         data = new T[width * height * nSlices * nChannels * nFrames];
+    }
+
+    inline size_t length() const { return height * width * nChannels * nSlices * nFrames; }
+
+    void increment_init() {
+        for (size_t i = 0 ; i < this->length() ; i++) {
+            data[i] = static_cast<T>(i);
+        }
     }
 
     virtual Image* alike() = 0;
@@ -339,7 +358,7 @@ struct Image8 : public Image<uint8_t> {
 
     Image8() = default;
 
-    Image8(int w, int h, int s, int c, int f) : Image<uint8_t>(h, w, s, c, f) {}
+    Image8(int h, int w, int s, int c, int f) : Image<uint8_t>(h, w, s, c, f, Data::data_type::IMG_U8) {}
 
     Image8* alike() override {
         return new Image8();
@@ -354,7 +373,7 @@ struct Image16 : public Image<uint16_t> {
 
     Image16() = default;
 
-    Image16(int w, int h, int s, int c, int f) : Image<uint16_t>(h, w, s, c, f)  {}
+    Image16(int h, int w, int s, int c, int f) : Image<uint16_t>(h, w, s, c, f, Data::data_type::IMG_U16)  {}
 
     Image16* alike() override {
         return new Image16();
@@ -430,9 +449,9 @@ struct ThresholdTask : Task {
         return 1;
     }
 
-    bool run() override {
+    Data::data_type run() override {
         target->run(*this);
-        return true;
+        return target->dtype_idx;
     }
 };
 
@@ -553,9 +572,9 @@ struct ImageCalculatorTask : Task {
         return 1;
     }
 
-    bool run() override {
+    Data::data_type run() override {
         img1->run(*this);
-        return true;
+        return img1->dtype_idx;
     }
 };
 
@@ -580,9 +599,9 @@ struct MaximumTask : Task {
         return 1;
     }
 
-    bool run() override {
+    Data::data_type run() override {
         target->run(*this);
-        return true;
+        return target->dtype_idx;
     }
 };
 
@@ -604,6 +623,80 @@ struct MaximumTask : Task {
 // - [ ] Créer une image assez grande pour qu'elle passe le threshold.
 // - [ ] Charger une petite image.
 // - [ ] Charger une image assez grande pour dépasser le threshold.
+
+bool test_correct_delegation_all_available() {
+    Image8  c1(512, 512, 5, 3, 9);
+    Image16 c2(512, 512, 5, 3, 9);
+    Image16 c3(512, 512, 5, 3, 9);
+
+    c1.increment_init();
+    c2.increment_init();
+    c3.increment_init();
+
+    ThresholdTask t1(31.0f, &c1);
+    ThresholdTask t2(31.0f, &c1);
+    ThresholdTask t3(31.0f, &c3);
+
+    Data::data_type r1 = t1.run();
+    Data::data_type r2 = t2.run();
+    Data::data_type r3 = t3.run();
+
+    if (!((r1 == Data::data_type::IMG_U8) && (r2 == Data::data_type::IMG_U16) && (r3 == Data::data_type::IMG_U16))) {
+        return false;
+    }
+
+    Data* p1 = &c1;
+    Data* p2 = &c2;
+    Data* p3 = &c3;
+
+    t1.set_target(p1);
+    t2.set_target(p2);
+    t3.set_target(p3);
+
+    r1 = t1.run();
+    r2 = t2.run();
+    r3 = t3.run();
+
+    return (r1 == Data::data_type::IMG_U8) && (r2 == Data::data_type::IMG_U16) && (r3 == Data::data_type::IMG_U16);
+}
+
+bool test_correct_delegation_unavailable() {
+    Image8  c1(512, 512, 5, 3, 9);
+    Image16 c2(512, 512, 5, 3, 9);
+    Image16 c3(512, 512, 5, 3, 9);
+
+    c1.increment_init();
+    c2.increment_init();
+    c3.increment_init();
+
+    MaximumTask m1(&c1);
+    MaximumTask m2(&c2);
+    MaximumTask m3(&c3);
+
+    Data::data_type r1;
+    Data::data_type r2;
+    Data::data_type r3;
+
+    try {
+        r1 = m1.run();
+    } catch(std::exception& e) {
+        r1 = Data::data_type::UNDEFINED;
+    }
+
+    try {
+        r2 = m2.run();
+    } catch(std::exception& e) {
+        r2 = Data::data_type::UNDEFINED;
+    }
+
+    try {
+        r3 = m3.run();
+    } catch(std::exception& e) {
+        r3 = Data::data_type::UNDEFINED;
+    }
+
+    return (r1 == Data::data_type::IMG_U8) && (r2 == Data::data_type::UNDEFINED) && (r3 == Data::data_type::UNDEFINED);
+}
 
 int main(int argc, char* argv[], char* env[]) {
 
